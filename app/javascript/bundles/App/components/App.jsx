@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Home from './Home';
+import SignIn from './SignIn';
+import NavBar from './NavBar'
+
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 export default class App extends React.Component {
   /**
    * @param props - Comes from your rails view.
@@ -11,9 +17,11 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
-        This is root of the app.
-      </div>
+        <Router>
+            <NavBar />
+            <Route exact path='/home' component={Home} />
+            <Route path='/sign-in' component={SignIn} />
+        </Router>
     );
   }
 }
