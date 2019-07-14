@@ -1,8 +1,7 @@
 import ReactOnRails from 'react-on-rails';
 
-import App from '../bundles/App/components/App';
-import NavBar from '../bundles/App/components/NavBar';
+import App from '../bundles/App/pages/App';
 
 ReactOnRails.register({
-  App, NavBar
-});
+  App
+}); 
