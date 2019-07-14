@@ -21,6 +21,7 @@ export default class App extends React.Component {
             <NavBar />
             <Route exact path='/home' component={Home} />
             <Route path='/sign-in' component={SignIn} />
+            <Route path='/sign-up' render={() => (<SignIn type="sign-up" />)} />
         </Router>
     );
   }
