@@ -14,10 +14,16 @@ export default class SignIn extends React.Component {
   }
 
   render() {
+    const headerTxt = this.props.type === 'sign-up' ? 'Sign Up' : 'Sign In'
+    const type = this.props.type;
+
     return (
-        <div className="d-flex justify-content-center">
-            <div className="mw-25">
-                <SignInForm />
+        <div className="d-flex flex-column align-items-center">
+            <h1 className="text-center">
+              {headerTxt}
+            </h1>
+            <div>
+                <SignInForm type={type} />
             </div>
         </div>
     );
