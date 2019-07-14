@@ -4,4 +4,4 @@ import App from '../bundles/App/pages/App';
 
 ReactOnRails.register({
   App
-}); 
+});
