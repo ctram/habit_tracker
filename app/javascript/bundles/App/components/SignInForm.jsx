@@ -1,19 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
-import history from '../../../helpers/history';
-// import { createBrowserHistory } from 'history';
+import { withRouter } from 'react-router';
 
-// const history = createBrowserHistory({
-//   forceRefresh: true
-// });
-//
-// const unlisten = history.listen((location, action) => {
-//   // location is an object like window.location
-//   console.log(action, location.pathname, location.state);
-// });
-
-export default class SignInForm extends React.Component {
+class SignInForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -51,15 +41,14 @@ export default class SignInForm extends React.Component {
 
 
         if (status === 200) {
-
+          this.props.history.push('/home');
           this.props.setCurrentUser(obj.user);
-          return history.push('/home');
+          return;
         }
 
         throw(obj.message);
       })
       .catch(e => {
-
         console.error(e);
       })
   }
@@ -80,7 +69,7 @@ export default class SignInForm extends React.Component {
 
         if (status === 201) {
 
-          return history('/sign-in');
+          return this.props.history.push('/sign-in');
         }
 
         throw(obj.message);
@@ -116,3 +105,5 @@ export default class SignInForm extends React.Component {
     );
   }
 }
+
+export default withRouter(SignInForm);
