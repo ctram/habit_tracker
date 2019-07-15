@@ -13,4 +13,8 @@ class SessionsController < ApplicationController
     session[:user_id] = user.id
     render(status: 200, json: { user: user.slice(:id, :email) })
   end
+
+  def show
+    binding.pry
+  end
 end
