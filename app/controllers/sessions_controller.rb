@@ -6,9 +6,11 @@ class SessionsController < ApplicationController
 
     user = User.find_by_email(email)
 
-    if !user || user.password != password
+    unless user && user.authenticate(password)
       return render(status: 401, json: { message: 'IncorrectEmailOrPassword' })
     end
+
+    login(user)
 
     session[:user_id] = user.id
     render(status: 200, json: { user: user.slice(:id, :email) })
