@@ -1,4 +1,4 @@
-export default function fetchPlus(url, options = {}) {
+export default function fetchPlus(url, options = { method: 'GET' }) {
     let defaults = {
         headers: new Headers({
             'Content-Type': 'application/json'
