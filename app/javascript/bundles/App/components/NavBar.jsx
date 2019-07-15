@@ -22,7 +22,7 @@ export default class NavBar extends React.Component {
             <ul className="navbar-nav mr-auto">
               {
                 currentUser && <li className="nav-item active">
-                  currentUser.email
+                  {currentUser.email}
                 </li>
               }
               {
