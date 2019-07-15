@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :users
 
   post '/sessions', to: 'sessions#create'
+  get '/sessions', to: 'sessions#show'
 
   root 'statics#index'
 
