@@ -26,10 +26,8 @@ import AppPage from '../pages/App';
 // See documentation for https://github.com/reactjs/react-redux.
 // This is how you get props from the Rails view into the redux store.
 // This code here binds your smart component to the redux store.
-const App = (props) => (
+export default (props) => (
   <Provider store={configureStore(props)}>
     <AppPage />
   </Provider>
 );
-
-export default App;
