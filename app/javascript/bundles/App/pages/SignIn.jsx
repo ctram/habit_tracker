@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SignInForm from '../components/SignInForm'
+import SignInForm from '../containers/SignInFormContainer'
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 

@@ -9,6 +9,8 @@ export default class NavBar extends React.Component {
   }
 
   render() {
+    const { currentUser } = this.props;
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" href="#" to="/home">Navbar</Link>
@@ -18,12 +20,26 @@ export default class NavBar extends React.Component {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <Link className="nav-link" href="#" to="/sign-in">Sign In</Link>
-              </li>
-              <li className="nav-item active">
-                <Link className="nav-link" href="#" to="/sign-up">Sign Up</Link>
-              </li>
+              {
+                currentUser && <li className="nav-item active">
+                  currentUser.email
+                </li>
+              }
+              {
+                !currentUser && <li className="nav-item active">
+                  <Link className="nav-link" href="#" to="/sign-in">Sign In</Link>
+                </li>
+              }
+              {
+                !currentUser && <li className="nav-item active">
+                  <Link className="nav-link" href="#" to="/sign-up">Sign Up</Link>
+                </li>
+              }
+              {
+                currentUser && <li className="nav-item active">
+                  <Link className="nav-link" href="#" to="/sign-out">Sign Out</Link>
+                </li>
+              }
               {/*
                   <li className="nav-item">
                   <a className="nav-link" href="#">Link</a>

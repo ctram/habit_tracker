@@ -1,7 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
-import history from 'browser-history';
+import history from '../../../helpers/history';
+// import { createBrowserHistory } from 'history';
+
+// const history = createBrowserHistory({
+//   forceRefresh: true
+// });
+//
+// const unlisten = history.listen((location, action) => {
+//   // location is an object like window.location
+//   console.log(action, location.pathname, location.state);
+// });
 
 export default class SignInForm extends React.Component {
   constructor(props) {
@@ -23,15 +33,35 @@ export default class SignInForm extends React.Component {
       return this.signUp(email, password);
     }
 
-    return this.signIn();
+    return this.signIn(email, password);
   }
 
   signIn(email, password) {
+    let status = null;
 
     fetchPlus('http://localhost:3000/sessions', {
       method: 'POST',
-      body: { email, password }
+      body: JSON.stringify({ user: { email, password } })
     })
+      .then(res => {
+        status = res.status;
+        return res.json()
+      })
+      .then(obj => {
+
+
+        if (status === 200) {
+
+          this.props.setCurrentUser(obj.user);
+          return history.push('/home');
+        }
+
+        throw(obj.message);
+      })
+      .catch(e => {
+
+        console.error(e);
+      })
   }
 
   signUp(email, password) {
@@ -46,20 +76,19 @@ export default class SignInForm extends React.Component {
         return res.json()
       })
       .then(obj => {
-        debugger
+
 
         if (status === 201) {
-          debugger
-          history.push('/sign-in');
-          return console.log(obj.user);
+
+          return history('/sign-in');
         }
 
         throw(obj.message);
       })
       .catch(e => {
-        debugger
+
         console.error(e);
-      })
+      });
   }
 
   render() {
