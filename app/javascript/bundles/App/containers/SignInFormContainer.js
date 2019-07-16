@@ -1,16 +1,20 @@
 import { connect } from 'react-redux';
 import SignInForm from '../components/SignInForm';
-import * as actions from '../actions/usersActionCreators';
+import * as usersActions from '../actions/usersActionCreators';
+import * as alertsActions from '../actions/alertsActionCreators';
 
 // Which part of the Redux global state does our component want to receive as props?
 const mapStateToProps = (state) => ({ users: state.users });
 
 const mapDispatchToProps = dispatch => {
-  setCurrentUser: user => {
-    dispatch(setCurrentUser(user));
-  }
+  return {
+    setCurrentUser: user => {
+      dispatch(usersActions.setCurrentUser(user));
+    },
+    alertSignInError: (alertType, message) => {
+      dispatch(alertsActions.setCurrentAlert(alertType, message));
+    }
+  };
 }
-// Don't forget to actually use connect!
-// Note that we don't export App, but the redux "connected" version of it.
-// See https://github.com/reactjs/react-redux/blob/master/docs/api.md#examples
-export default connect(mapStateToProps, actions)(SignInForm);
+
+export default connect(mapStateToProps,   mapDispatchToProps)(SignInForm);
