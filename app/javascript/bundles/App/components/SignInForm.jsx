@@ -105,4 +105,8 @@ class SignInForm extends React.Component {
   }
 }
 
+SignInForm.propTypes = {
+  type: PropTypes.string
+}
+
 export default withRouter(SignInForm);
