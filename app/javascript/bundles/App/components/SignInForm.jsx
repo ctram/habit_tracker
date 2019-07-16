@@ -40,6 +40,7 @@ class SignInForm extends React.Component {
       .then(obj => {
         if (status === 200) {
           this.props.history.push('/home');
+          this.props.alertSignInError('success', 'Successfully signed in.')
           this.props.setCurrentUser(obj.user);
           return;
         }
