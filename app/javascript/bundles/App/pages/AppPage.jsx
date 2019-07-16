@@ -7,9 +7,6 @@ import NavBarContainer from '../containers/NavBarContainer';
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
-import fetchPlus from '../../../helpers/fetch-plus';
-import { SET_CURRENT_USER } from '../constants/constants';
-
 export default class App extends React.Component {
   /**
    * @param props - Comes from your rails view.
@@ -20,28 +17,13 @@ export default class App extends React.Component {
 
   componentDidMount() {
 
-    fetchPlus('http://localhost:3000/sessions/1')
-      .then(res => {
-        return res.json();
-      })
-      .then(res => {
-        const { user } = res;
-
-        if (user) {
-          return this.props.dispatch({ type: SET_CURRENT_USER, user });
-        }
-
-        throw(res.message);
-      })
-      .catch(e => {
-        console.error(e);
-      });
+    return this.props.authenticateUser();
   }
 
   render() {
     return (
         <Router>
-          <NavBarContainer />
+          <NavBarContainer someProps={{ asd: '234234'}}/>
           <Switch>
             <Route exact path='/home' component={Home} />
             <Route path='/sign-in' component={SignInPage} />
