@@ -5,7 +5,8 @@ import { setCurrentUser } from '../actions/usersActionCreators';
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.users.currentUser
+    currentUser: state.users.currentUser,
+    alert: state.alerts.currentAlert
   }
 };
 
