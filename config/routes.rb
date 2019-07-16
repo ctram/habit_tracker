@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   # get 'hello_world', to: 'hello_world#index'
 
-  resources :users
+  resources :users do
+    resources :habits
+  end
 
   resources :sessions, only: [:create]
   get '/sessions', to: 'sessions#authenticate'
