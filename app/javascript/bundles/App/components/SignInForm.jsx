@@ -28,6 +28,7 @@ class SignInForm extends React.Component {
 
   signIn(email, password) {
     let status = null;
+    const _this = this;
 
     fetchPlus('http://localhost:3000/sessions', {
       method: 'POST',
@@ -38,16 +39,16 @@ class SignInForm extends React.Component {
         return res.json()
       })
       .then(obj => {
-
         if (status === 200) {
-          this.props.history.push('/home');
-          this.props.setCurrentUser(obj.user);
+          _this.props.history.push('/home');
+          _this.props.setCurrentUser(obj.user);
           return;
         }
 
         throw(obj.message);
       })
       .catch(e => {
+        _this.props.alertSignInError('primary', 'Incorrect email or passsword.')
         console.error(e);
       })
   }
@@ -64,17 +65,14 @@ class SignInForm extends React.Component {
         return res.json()
       })
       .then(obj => {
-
-
         if (status === 201) {
-
           return this.props.history.push('/sign-in');
         }
 
         throw(obj.message);
       })
       .catch(e => {
-
+        this.props.alertSignInError('primary', 'There was an error signing up.')
         console.error(e);
       });
   }
