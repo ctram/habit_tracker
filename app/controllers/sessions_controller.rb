@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: :create
+  skip_before_action :verify_authenticity_token, only: [:create, :destroy]
 
   def create
     email, password = params[:user].values_at :email, :password
@@ -16,18 +16,15 @@ class SessionsController < ApplicationController
     render(status: 200, json: { user: user.slice(:id, :email) })
   end
 
-  def show
-    binding.pry
-
-    return render(status: 401) unless current_user
+  def authenticate
+    return render(status: 201, json: {}) unless current_user
 
     render(status: 200, json: { user: current_user.slice(:email, :id) })
   end
 
   def destroy
-    return render(status: 401) unless current_user
+    return render(status: 401, json: {}) unless current_user
 
-     logout
-     redirect_to '/'
+    logout
   end
 end
