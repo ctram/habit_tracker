@@ -28,7 +28,6 @@ class SignInForm extends React.Component {
 
   signIn(email, password) {
     let status = null;
-    const _this = this;
 
     fetchPlus('http://localhost:3000/sessions', {
       method: 'POST',
@@ -40,8 +39,8 @@ class SignInForm extends React.Component {
       })
       .then(obj => {
         if (status === 200) {
-          _this.props.history.push('/home');
-          _this.props.setCurrentUser(obj.user);
+          this.props.history.push('/home');
+          this.props.setCurrentUser(obj.user);
           return;
         }
 
@@ -66,6 +65,7 @@ class SignInForm extends React.Component {
       })
       .then(obj => {
         if (status === 201) {
+          this.props.alertSignInError('success', 'Sign up successful.')
           return this.props.history.push('/sign-in');
         }
 
