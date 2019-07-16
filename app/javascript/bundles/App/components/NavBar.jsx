@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
 import { setCurrentUser } from '../actions/usersActionCreators';
+import { setCurrentAlert, clearCurrentAlert } from '../actions/alertsActionCreators';
 import fetchPlus from '../../../helpers/fetch-plus';
 
 
@@ -12,21 +13,28 @@ class NavBar extends React.Component {
     super(props);
 
     this.signOut = this.signOut.bind(this);
+    this.resetAlertBar = this.resetAlertBar.bind(this);
   }
 
   signOut(e) {
     e.preventDefault();
 
-    const _this = this;
-
     return fetchPlus('http://localhost:3000/sessions', {
       method: 'DELETE'
     })
       .then(() => {
-        _this.props.history.push('/sign-in');
-        _this.props.dispatch(setCurrentUser(null));
+        this.props.history.push('/sign-in');
+        this.props.dispatch(setCurrentUser(null));
+        this.props.dispatch(setCurrentAlert('success', 'Successfully logged out.'));
       })
       .catch(e => console.error(e));
+  }
+
+  resetAlertBar() {
+
+    if (this.props.currentAlert) {
+      this.props.dispatch(clearCurrentAlert());
+    }
   }
 
   render() {
@@ -35,6 +43,7 @@ class NavBar extends React.Component {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" href="#" to="/home">Navbar</Link>
+
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -50,12 +59,12 @@ class NavBar extends React.Component {
               }
               {
                 !currentUser && <li className="nav-item active">
-                  <Link className="nav-link" href="#" to="/sign-in">Sign In</Link>
+                  <Link className="nav-link" href="#" to="/sign-in" onClick={this.resetAlertBar}>Sign In</Link>
                 </li>
               }
               {
                 !currentUser && <li className="nav-item active">
-                  <Link className="nav-link" href="#" to="/sign-up">Sign Up</Link>
+                  <Link className="nav-link" href="#" to="/sign-up" onClick={this.resetAlertBar}>Sign Up</Link>
                 </li>
               }
               {

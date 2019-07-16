@@ -25,7 +25,7 @@ export default class App extends React.Component {
 
     return (
         <Router>
-          <NavBarContainer someProps={{ asd: '234234'}}/>
+          <NavBarContainer />
           {
             alert && <AlertBar alertType={alert.alertType} message={alert.message} />
           }
