@@ -19,8 +19,8 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    
-    fetchPlus('http://localhost:3000/sessions')
+
+    fetchPlus('http://localhost:3000/sessions/1')
       .then(res => {
         return res.json();
       })
@@ -46,6 +46,7 @@ export default class App extends React.Component {
             <Route exact path='/home' component={Home} />
             <Route path='/sign-in' component={SignInPage} />
             <Route path='/sign-up' render={() => (<SignInPage type="sign-up" />)} />
+            <Route path='/' render={() => ('This is root')} />
           </Switch>
         </Router>
     );

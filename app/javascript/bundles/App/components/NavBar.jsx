@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { withRouter } from 'react-router';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-export default class NavBar extends React.Component {
+class NavBar extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -21,8 +22,10 @@ export default class NavBar extends React.Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               {
-                currentUser && <li className="nav-item active">
-                  {currentUser.email}
+                currentUser && <li className="nav-item active d-flex align-items-center mx-3">
+                  <span className="font-weight-bold">
+                    {currentUser.email}
+                  </span>
                 </li>
               }
               {
@@ -37,7 +40,7 @@ export default class NavBar extends React.Component {
               }
               {
                 currentUser && <li className="nav-item active">
-                  <Link className="nav-link" href="#" to="/sign-out">Sign Out</Link>
+                  <a className="nav-link" href="#" onClick={this.props.signOut}>Sign Out</a>
                 </li>
               }
               {/*
@@ -73,3 +76,5 @@ export default class NavBar extends React.Component {
     );
   }
 }
+
+export default withRouter(NavBar);
