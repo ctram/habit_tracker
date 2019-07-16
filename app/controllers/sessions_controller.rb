@@ -18,5 +18,16 @@ class SessionsController < ApplicationController
 
   def show
     binding.pry
+
+    return render(status: 401) unless current_user
+
+    render(status: 200, json: { user: current_user.slice(:email, :id) })
+  end
+
+  def destroy
+    return render(status: 401) unless current_user
+
+     logout
+     redirect_to '/'
   end
 end
