@@ -1,8 +1,10 @@
-import { SET_CURRENT_ALERT } from '../constants/constants';
+import * as constants from '../constants/constants';
 
-function setCurrentAlert(alertType = 'primary', message)
+export function setCurrentAlert(alertType = 'primary', message)
 {
-  return { type: SET_CURRENT_ALERT, alertType, message }
+  return { type: constants.SET_CURRENT_ALERT, alertType, message };
 };
 
-export { setCurrentAlert };
+export function clearCurrentAlert() {
+  return { type: constants.CLEAR_CURRENT_ALERT };
+}
