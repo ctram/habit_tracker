@@ -1,12 +1,32 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
+import { setCurrentUser } from '../actions/usersActionCreators';
+import fetchPlus from '../../../helpers/fetch-plus';
+
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
+
+    this.signOut = this.signOut.bind(this);
+  }
+
+  signOut(e) {
+    e.preventDefault();
+
+    const _this = this;
+
+    return fetchPlus('http://localhost:3000/sessions', {
+      method: 'DELETE'
+    })
+      .then(() => {
+        _this.props.history.push('/sign-in');
+        _this.props.dispatch(setCurrentUser(null));
+      })
+      .catch(e => console.error(e));
   }
 
   render() {
@@ -40,7 +60,7 @@ class NavBar extends React.Component {
               }
               {
                 currentUser && <li className="nav-item active">
-                  <a className="nav-link" href="#" onClick={this.props.signOut}>Sign Out</a>
+                  <a className="nav-link" href="#" onClick={this.signOut}>Sign Out</a>
                 </li>
               }
               {/*

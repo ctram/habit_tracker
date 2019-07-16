@@ -39,7 +39,6 @@ class SignInForm extends React.Component {
       })
       .then(obj => {
 
-
         if (status === 200) {
           this.props.history.push('/home');
           this.props.setCurrentUser(obj.user);
