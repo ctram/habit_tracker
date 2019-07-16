@@ -3,7 +3,8 @@ import NavBar from '../components/NavBar';
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.users.currentUser
+    currentUser: state.users.currentUser,
+    currentAlert: state.alerts.currentAlert
   }
 };
 
