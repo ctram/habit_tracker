@@ -4,6 +4,7 @@ import React from 'react';
 import Home from '../components/Home';
 import SignInPage from './SignInPage';
 import NavBarContainer from '../containers/NavBarContainer';
+import AlertBar from '../components/AlertBar';
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
@@ -16,14 +17,18 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-
     return this.props.authenticateUser();
   }
 
   render() {
+    const { alert } = this.props;
+
     return (
         <Router>
           <NavBarContainer someProps={{ asd: '234234'}}/>
+          {
+            alert && <AlertBar alertType={alert.alertType} message={alert.message} />
+          }
           <Switch>
             <Route exact path='/home' component={Home} />
             <Route path='/sign-in' component={SignInPage} />
