@@ -3,7 +3,6 @@ import React from 'react';
 import HabitWeekCard from '../components/HabitWeekCard';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import fetchPlus from '../../../helpers/fetch-plus';
-import { setHabitsIndex } from '../actions/habitsActionCreators';
 import { connect } from 'react-redux';
 import DaysInWeek from '../components/DaysInWeek';
 import priorDaysHelper from '../../../helpers/days-in-week';
@@ -12,34 +11,8 @@ class HabitsIndexPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.fetchHabits = this.fetchHabits.bind(this);
   }
 
-  componentDidMount() {
-    this.fetchHabits();
-  }
-
-  fetchHabits() {
-    const { currentUser } = this.props;
-    let status = null;
-
-    fetchPlus(`http://localhost:3000/users/${currentUser.id}/habits`)
-      .then(res => {
-        status = res.status;
-
-        return res.json();
-      })
-      .then(res => {
-        if (status !== 200) {
-          throw(res.message);
-        }
-
-        let habits = res.habits;
-
-        this.props.dispatch(setHabitsIndex(habits));
-      })
-      .catch(e => console.error(e));
-  }
 
   render() {
     const { habits } = this.props;
