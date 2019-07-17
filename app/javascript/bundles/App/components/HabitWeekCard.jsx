@@ -1,33 +1,27 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
+import { withRouter } from 'react-router';
 
-export default class HabitWeekCard extends React.Component {
+class HabitWeekCard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onClick = this.onClick.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
-  onClick(e) {
+  onChange(e) {
     e.preventDefault();
 
     const { user_id, id } = this.props.habit;
     const isChecked = e.target.checked;
     const idx = Number(e.target.getAttribute('data-idx'));
-    let { dateNum, monthNum, year } = this.props.priorDays[idx];
-
-    monthNum = String(monthNum).length < 2 ? `0${monthNum}` : monthNum;
-    dateNum = String(dateNum).length < 2 ? `0${dateNum}` : dateNum;
-
-    const fullDate = `${year}-${monthNum}-${dateNum}`;
+    let { fullDate } = this.props.priorDays[idx];
 
     let status;
 
-    let action = isChecked === true ? 'complete' : 'uncomplete';
-
-    fetchPlus(`http://localhost:3000/users/${user_id}/habits/${id}/${action}`, {
-      method: isChecked ? 'POST' : 'DELETE',
+    fetchPlus(`http://localhost:3000/users/${user_id}/habits/${id}/update_habit_completed_for_date`, {
+      method: 'POST',
       body: JSON.stringify({ habit: { id, date: fullDate, completed: isChecked }})
     })
       .then(res => {
@@ -36,14 +30,17 @@ export default class HabitWeekCard extends React.Component {
         return res.json();
       })
       .then(res => {
-        this.props.history('/');
+        return this.props.fetchHabits();
       })
       .catch(e => console.error(e));
   }
 
   render() {
-    const { habit: { title, dates } } = this.props;
+    let { habit: { title, dates }, priorDays } = this.props;
 
+    dates = Object.keys(dates);
+
+    let priorDayNums = priorDays.map(day => day.fullDate);
     let inner = [];
 
     inner.push(
@@ -55,7 +52,7 @@ export default class HabitWeekCard extends React.Component {
     for (let i = 0; i < 6; i++) {
       inner.push(
         <div className="col-1 d-flex flex-column" key={i}>
-          <input type="checkbox" onClick={this.onClick} data-idx={i} />
+          <input type="checkbox" onChange={this.onChange} data-idx={i} checked={dates.indexOf(priorDayNums[i]) > -1} />
         </div>
       );
     }
@@ -71,3 +68,5 @@ export default class HabitWeekCard extends React.Component {
     );
   }
 }
+
+export default withRouter(HabitWeekCard);
