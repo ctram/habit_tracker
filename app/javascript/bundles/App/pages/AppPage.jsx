@@ -80,7 +80,7 @@ export default class App extends React.Component {
     const { alert, currentUser, habits } = this.props;
 
     const habitRoutes = habits.map((habit, idx) => {
-        return <Route path={`/habits/${habit.id}`} render={() => (<HabitPage habit={habit} />)} key={idx} />;
+        return <Route path={`/habits/${habit.id}`} render={() => (<HabitPage habit={habit} currentUser={currentUser} fetchHabits={this.fetchHabits} />)} key={idx} />;
     });
     return (
         <Router>
@@ -96,7 +96,7 @@ export default class App extends React.Component {
                 <Route path='/habits/new' component={AddHabitPageContainer} />
                 {
                   currentUser
-                    && <Route exact path='/' render={() => (<HabitsIndexPage habits={habits} />)} />
+                    && <Route exact path='/' render={() => (<HabitsIndexPage habits={habits} fetchHabits={this.fetchHabits} />)} />
                         || <Route path='/' render={() => ('root when not signed in')} />
                 }
                 {

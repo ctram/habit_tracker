@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import * as alertsActions from '../actions/alertsActionCreators';
 
 class Habit extends React.Component {
   constructor(props) {
@@ -11,7 +13,16 @@ class Habit extends React.Component {
   }
 
   delete() {
+    const { currentUser, habit, fetchHabits } = this.props;
 
+    fetchPlus(`http://localhost:3000/users/${currentUser.id}/habits/${habit.id}`, {
+      method: 'DELETE'
+    })
+      .then(res => {
+        this.props.dispatch(alertsActions.setCurrentAlert('primary', 'Habit deleted.'));
+        this.props.history.push('/');
+        this.props.fetchHabits();
+      });
   }
 
   render() {
@@ -37,4 +48,4 @@ class Habit extends React.Component {
   }
 }
 
-export default withRouter(Habit);
+export default withRouter(connect()(Habit));

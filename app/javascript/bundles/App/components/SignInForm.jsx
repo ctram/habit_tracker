@@ -48,7 +48,7 @@ class SignInForm extends React.Component {
         throw(obj.message);
       })
       .catch(e => {
-        _this.props.alertSignInError('primary', 'Incorrect email or passsword.')
+        this.props.alertSignInError('primary', 'Incorrect email or passsword.')
         console.error(e);
       })
   }
