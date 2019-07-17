@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import fetchPlus from '../../../helpers/fetch-plus';
 import { setHabitsIndex } from '../actions/habitsActionCreators';
 import { connect } from 'react-redux';
+import DaysInWeek from '../components/DaysInWeek';
 
 
 class HabitsIndexPage extends React.Component {
@@ -50,7 +51,12 @@ class HabitsIndexPage extends React.Component {
           <Link className="btn btn-primary" to="/habits/new">
             Add Habit
           </Link>
-          <div className="my-5">
+
+          <div className="mt-5 w-75">
+            <DaysInWeek />
+          </div>
+
+          <div className="my-5 w-75">
             {inner}
           </div>
         </div>

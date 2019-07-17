@@ -8,7 +8,6 @@ export default class AddHabitPage extends React.Component {
     super(props);
 
     this.inputTitle = React.createRef();
-
     this.submit = this.submit.bind(this);
   }
 
