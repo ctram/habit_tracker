@@ -11,6 +11,7 @@ class HabitsController < ApplicationController
     render(status: 201, json: { habit: habit })
   end
 
+  # TODO: check that these actions are reached
   def complete
 
 
