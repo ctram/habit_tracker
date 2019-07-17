@@ -23,7 +23,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { alert, currentUser } = this.props;
+    const { alert, currentUser, habits } = this.props;
 
     return (
         <Router>
@@ -38,9 +38,9 @@ export default class App extends React.Component {
                 <Route path='/sign-up' render={() => (<SignInPage type="sign-up" />)} />
                 <Route path='/habits/new' component={AddHabitPageContainer} />
                 {
-                  currentUser &&
-                    <Route path='/' component={HabitsIndexPage} /> ||
-                    <Route path='/' render={() => ('root when not signed in')} />
+                  currentUser
+                    && <Route exact path='/' render={() => (<HabitsIndexPage habits={habits} />)} />
+                        || <Route path='/' render={() => ('root when not signed in')} />
                 }
 
             </Switch>
