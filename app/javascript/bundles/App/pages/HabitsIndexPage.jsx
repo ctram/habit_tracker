@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import HabitWeekCard from '../components/HabitWeekCard';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+
 
 class HabitsIndexPage extends React.Component {
   constructor(props) {
@@ -20,7 +22,12 @@ class HabitsIndexPage extends React.Component {
 
     return (
         <div className="d-flex flex-column align-items-center">
-          {inner}
+          <Link className="btn btn-primary" to="/habits/new">
+            Add Habit
+          </Link>
+          <div className="my-5">
+            {inner}
+          </div>
         </div>
     );
   }
