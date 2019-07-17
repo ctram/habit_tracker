@@ -11,7 +11,13 @@ class HabitsController < ApplicationController
     render(status: 201, json: { habit: habit })
   end
 
-  # TODO: check that these actions are reached
+  def destroy
+    habit = Habit.find(params[:id])
+    habit.destroy
+
+    render(status: 204, json: {})
+  end
+
   def update_habit_completed_for_date
     id, date, completed = habit_params.values_at :id, :date, :completed
 
