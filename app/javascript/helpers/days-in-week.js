@@ -21,7 +21,12 @@ export default function priorDays(num_days = 6, startingDate = new Date()) {
     const dateNum = m.date();
     const monthNum = m.month() + 1; // months start at index 0, so we add 1 to get "normal" index.
 
-    res.unshift({ dayName, monthNum, dateNum, dayIdx, year })
+    monthNum = String(monthNum).length < 2 ? `0${monthNum}` : monthNum;
+    dateNum = String(dateNum).length < 2 ? `0${dateNum}` : dateNum;
+
+    const fullDate = `${year}-${monthNum}-${dateNum}`;
+    
+    res.unshift({ dayName, monthNum, dateNum, dayIdx, year, fullDate })
 
     m.subtract(1, 'days');
   }
