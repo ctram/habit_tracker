@@ -12,18 +12,26 @@ class HabitsController < ApplicationController
   end
 
   # TODO: check that these actions are reached
-  def complete
+  def update_habit_completed_for_date
+    id, date, completed = habit_params.values_at :id, :date, :completed
 
+    habit = Habit.find(id)
 
-  end
+    return render(status: 400, json: { message: 'HabitNotFound' }) unless habit
 
-  def uncomplete
+    if completed
+      habit.dates[date] = true
+    else
+      habit.dates.delete(date)
+    end
 
+    habit.save
+    render(status: 200, json: { habit: habit })
   end
 
   private
 
   def habit_params
-    params.require(:habit).permit(:title)
+    params.require(:habit).permit(:title, :date, :completed, :id)
   end
 end
