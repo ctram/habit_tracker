@@ -4,8 +4,7 @@ Rails.application.routes.draw do
   resources :users do
     resources :habits do
       member do
-        post '/complete', to: 'habits#complete'
-        delete '/uncomplete', to: 'habits#uncomplete'
+        post '/update_habit_completed_for_date', to: 'habits#update_habit_completed_for_date'
       end
     end
 
