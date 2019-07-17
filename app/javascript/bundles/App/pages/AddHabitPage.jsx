@@ -25,7 +25,7 @@ export default class AddHabitPage extends React.Component {
     })
       .then(res => {
         if (res.status === 201) {
-          this.props.history.push('/habits');
+          this.props.history.push('/');
           this.props.dispatch(setCurrentAlert('success', 'Habit created.'));
         }
 
