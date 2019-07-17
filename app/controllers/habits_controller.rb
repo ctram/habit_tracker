@@ -11,6 +11,15 @@ class HabitsController < ApplicationController
     render(status: 201, json: { habit: habit })
   end
 
+  def complete
+
+
+  end
+
+  def uncomplete
+
+  end
+
   private
 
   def habit_params
