@@ -6,7 +6,7 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { setHabitsIndex } from '../actions/habitsActionCreators';
 import { connect } from 'react-redux';
 import DaysInWeek from '../components/DaysInWeek';
-
+import priorDaysHelper from '../../../helpers/days-in-week';
 
 class HabitsIndexPage extends React.Component {
   constructor(props) {
@@ -40,9 +40,13 @@ class HabitsIndexPage extends React.Component {
 
     let inner = 'No habits. Go ahead and create one.';
 
+    let priorDays = priorDaysHelper(6, new Date());
+
     if (habits.length > 0) {
       inner = habits.map((habit, idx) => {
-        return <HabitWeekCard habit={habit} key={idx} />;
+        return <div className="m-2" key={idx}>
+          <HabitWeekCard habit={habit} priorDays={priorDays} />
+        </div>;
       });
     }
 
@@ -53,7 +57,7 @@ class HabitsIndexPage extends React.Component {
           </Link>
 
           <div className="mt-5 w-75">
-            <DaysInWeek />
+            <DaysInWeek priorDays={priorDays} />
           </div>
 
           <div className="my-5 w-75">

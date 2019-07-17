@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import priorDaysHelper from '../../../helpers/days-in-week';
 
 class DaysInWeek extends React.Component {
   render() {
     let inner = [];
 
-    let priorDays = priorDaysHelper(6, new Date());
+    let priorDays = this.props.priorDays;
 
     inner.push(
-      <div className="col-5">
+      <div className="col-5" key="padding">
         Padding
       </div>
     )
@@ -22,7 +21,7 @@ class DaysInWeek extends React.Component {
       let dayNameClass = dayIdx === 0 ? 'text-danger' : null;
 
       inner.push(
-        <div class={`col-1 d-flex flex-column ${dayNameClass}`}>
+        <div className={`col-1 d-flex flex-column ${dayNameClass}`} key={i}>
           <span>
             {dayName}
           </span>
