@@ -13,7 +13,6 @@ class HabitsIndexPage extends React.Component {
 
   }
 
-
   render() {
     const { habits } = this.props;
 
@@ -24,7 +23,7 @@ class HabitsIndexPage extends React.Component {
     if (habits.length > 0) {
       inner = habits.map((habit, idx) => {
         return <div className="m-2" key={idx}>
-          <HabitWeekCard habit={habit} priorDays={priorDays} fetchHabits={this.fetchHabits} />
+          <HabitWeekCard habit={habit} priorDays={priorDays} fetchHabits={this.props.fetchHabits} />
         </div>;
       });
     }
