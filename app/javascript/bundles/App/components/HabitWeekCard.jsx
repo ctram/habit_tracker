@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 class HabitWeekCard extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class HabitWeekCard extends React.Component {
   }
 
   render() {
-    let { habit: { title, dates }, priorDays } = this.props;
+    let { habit: { title, dates, id }, priorDays } = this.props;
 
     dates = Object.keys(dates);
 
@@ -45,7 +46,9 @@ class HabitWeekCard extends React.Component {
 
     inner.push(
       <div className="col-5" key="title">
-        <h5>{title}</h5>
+        <Link to={`/habits/${id}`}>
+          <h5>{title}</h5>
+        </Link>
       </div>
     )
 
