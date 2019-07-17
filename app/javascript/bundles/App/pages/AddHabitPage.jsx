@@ -9,9 +9,12 @@ export default class AddHabitPage extends React.Component {
 
     this.inputTitle = React.createRef();
     this.submit = this.submit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
-  submit() {
+  submit(e) {
+    e.preventDefault();
+
     const title = this.inputTitle.current.value
     const { currentUser } = this.props;
 
@@ -40,10 +43,10 @@ export default class AddHabitPage extends React.Component {
   render() {
     return <div className="d-flex flex-column align-items-center">
       <h1>Add Habit</h1>
-      <form className="w-50">
+      <form className="w-50" onSubmit={this.submit}>
         <div className="form-group">
         <label htmlFor="inputTitle">Title</label>
-        <input type="title" ref={this.inputTitle} className="form-control" id="inputTitle" placeholder="Enter title"/>
+        <input type="title" onChange={this.onChange} ref={this.inputTitle} className="form-control" id="inputTitle" placeholder="Enter title"/>
         </div>
         <button type="button" className="btn btn-primary" onClick={this.submit}>Add Habit</button>
       </form>
