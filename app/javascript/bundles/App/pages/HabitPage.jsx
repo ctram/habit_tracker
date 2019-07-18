@@ -5,6 +5,8 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as alertsActions from '../actions/alertsActionCreators';
 
+import Calendar from '../components/Calendar';
+
 class Habit extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +28,9 @@ class Habit extends React.Component {
   }
 
   render() {
-    const { habit: { title } } = this.props;
+    let { habit: { title, dates } } = this.props;
+
+    dates = Object.keys(dates);
 
     return <div>
       <h1>
@@ -40,7 +44,7 @@ class Habit extends React.Component {
 
         <div className="card my-5">
           <div className="card-body">
-            <h5 className="card-title">Calendar Here</h5>
+            <Calendar />
           </div>
         </div>
       </div>
