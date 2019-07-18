@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+ .force-pointer {
+   cursor: pointer;
+ }
