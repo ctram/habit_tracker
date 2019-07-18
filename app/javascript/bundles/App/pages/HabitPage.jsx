@@ -4,7 +4,6 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as alertsActions from '../actions/alertsActionCreators';
-
 import Calendar from '../components/Calendar';
 
 class Habit extends React.Component {
