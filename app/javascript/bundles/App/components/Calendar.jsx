@@ -30,25 +30,28 @@ class Header extends React.Component {
 
 class Week extends React.Component {
   render() {
-    let { startDayMoment: dayMoment, monthMoment } = this.props;
+    let { startDayMoment: dayMoment, monthMoment, completedDates } = this.props;
 
     let days = [];
     let lastDayOfMonthMoment = moment(monthMoment).add(1, 'months').subtract(1, 'days');
 
     for (let i = 0; i < 7; i++) {
       let dayNum = dayMoment.date();
-      let className;
+      let fontClass = '';
+      let dayClass = 'day';
 
       if (dayMoment.isBefore(monthMoment) || dayMoment.isAfter(lastDayOfMonthMoment)) {
-        className = 'font-weight-lighter';
+        fontClass = 'font-weight-lighter';
       } else {
-        className = 'font-weight-bold';
+        fontClass = 'font-weight-bold';
       }
 
+      dayClass += completedDates[dayMoment.format('YYYY-MM-DD')] ? ' day-completed' : '';
+
       days.push(
-        <div className={`col ${className}`} key={i}>
+        <div className={`col ${fontClass}`} key={i}>
           <div className="d-flex justify-content-center">
-            <div className="completed-day">
+            <div className={dayClass}>
               {dayNum}
             </div>
           </div>
@@ -66,7 +69,7 @@ class Week extends React.Component {
 
 class MonthDates extends React.Component {
     render() {
-      const { year, month } = this.props;
+      const { year, month, completedDates } = this.props;
 
       let lastDayOfMonthMoment = moment([year, month]).add(1, 'months').subtract(1, 'days');
       let monthMoment = moment([year, month]);
@@ -82,7 +85,7 @@ class MonthDates extends React.Component {
       while (startDayMoment.isBefore(lastDayOfMonthMoment) || startDayMoment.isSame(lastDayOfMonthMoment)) {
         domWeek.push(
           <div className="my-1" key={i}>
-            <Week startDayMoment={moment(startDayMoment)} year={year} monthMoment={monthMoment} />
+            <Week startDayMoment={moment(startDayMoment)} year={year} monthMoment={monthMoment} completedDates={completedDates} />
           </div>
         );
 
@@ -126,6 +129,7 @@ class Calendar extends React.Component {
 
   render() {
       const { month, year } = this.state;
+      const { completedDates } = this.props;
 
       return (
           <div className="r-calendar text-center">
@@ -135,7 +139,8 @@ class Calendar extends React.Component {
                   <MonthDates
                     month={month}
                     year={year}
-                    onSelect={this.selectDate} />
+                    onSelect={this.selectDate}
+                    completedDates={completedDates} />
               </div>
           </div>
       );

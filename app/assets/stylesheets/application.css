@@ -18,10 +18,13 @@
    cursor: pointer;
  }
 
-.completed-day {
-  background-color: blue;
+.day {
   height: 3em;
   width: 3em;
   border-radius: 50%;
   line-height: 3em;
+}
+
+.day-completed {
+  background-color: blue;
 }
