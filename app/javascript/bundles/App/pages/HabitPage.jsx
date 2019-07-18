@@ -29,7 +29,7 @@ class Habit extends React.Component {
   render() {
     let { habit: { title, dates } } = this.props;
 
-    dates = Object.keys(dates);
+
 
     return <div>
       <h1>
@@ -43,7 +43,7 @@ class Habit extends React.Component {
 
         <div className="card my-5">
           <div className="card-body">
-            <Calendar />
+            <Calendar completedDates={dates} />
           </div>
         </div>
       </div>
