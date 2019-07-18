@@ -15,13 +15,13 @@ class Header extends React.Component {
         </div>;
       });
 
-      return <div className="text-center font-weight-bold">
+      return <div className="text-center font-weight-bold border-bottom">
         <div className="row justify-content-center">
           <span className="mx-5 force-pointer" onClick={onPrev} >{'<'}</span>
           <h2>{`${MONTH_NAMES[this.props.month]} ${year}`}</h2>
           <span className="mx-5 force-pointer" onClick={onNext}>{'>'}</span>
         </div>
-        <div className="row">
+        <div className="row font-weight-bolder">
           {days}
         </div>
       </div>;
@@ -30,25 +30,28 @@ class Header extends React.Component {
 
 class Week extends React.Component {
   render() {
-    const { startDay, year, month } = this.props;
+    let { startDayMoment: dayMoment, monthMoment } = this.props;
 
-    let idxInWeekOfFirstDate = moment([year, month, startDay]).day();
     let days = [];
+    let lastDayOfMonthMoment = moment(monthMoment).add(1, 'months').subtract(1, 'days');
 
     for (let i = 0; i < 7; i++) {
-      let dayNum;
+      let dayNum = dayMoment.date();
+      let className;
 
-      if (startDay == 1 && i < idxInWeekOfFirstDate) {
-        dayNum = moment([year, month, 1]).subtract(idxInWeekOfFirstDate - i, 'days').date();
+      if (dayMoment.isBefore(monthMoment) || dayMoment.isAfter(lastDayOfMonthMoment)) {
+        className = 'font-weight-lighter';
       } else {
-        dayNum = moment([year, month, startDay]).add(i - idxInWeekOfFirstDate, 'days').date();
+        className = 'font-weight-bold';
       }
 
       days.push(
-        <div className="col" key={i}>
+        <div className={`col ${className}`} key={i}>
           {dayNum}
         </div>
       );
+
+      dayMoment = dayMoment.add(1, 'days');
     }
 
     return <div className="row">
@@ -61,19 +64,25 @@ class MonthDates extends React.Component {
     render() {
       const { year, month } = this.props;
 
-      let numDaysInMonth = moment([year, month]).daysInMonth();
+      let lastDayOfMonthMoment = moment([year, month]).add(1, 'months').subtract(1, 'days');
+      let monthMoment = moment([year, month]);
 
-      let numOfWeeks = Math.ceil(numDaysInMonth / 7);
-
+      let startDayMoment = moment([year, month])
       let domWeek = [];
-      let startDay = 1;
+      let i = 0;
 
-      for (let i = 0; i < numOfWeeks; i++) {
+
+      if (startDayMoment.day() !== 0) {
+        startDayMoment = startDayMoment.subtract(startDayMoment.day(), 'days')
+      }
+
+      while (startDayMoment.isBefore(lastDayOfMonthMoment) || startDayMoment.isSame(lastDayOfMonthMoment)) {
         domWeek.push(
-          <Week startDay={startDay} year={year} month={month} key={i} />
+          <Week startDayMoment={moment(startDayMoment)} year={year} monthMoment={monthMoment} key={i} />
         );
 
-        startDay += 7;
+        startDayMoment = startDayMoment.add(7, 'days');
+        i++;
       }
 
       return domWeek;
