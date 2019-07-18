@@ -7,14 +7,20 @@ const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "Ju
 
 class Header extends React.Component {
     render() {
+      const { onPrev, onNext, year } = this.props;
+
       let days = DAY_NAMES.map((name, idx) => {
         return <div className="col" key={idx}>
           {name}
         </div>;
       });
 
-      return <div className="text-center">
-        <h2>{MONTH_NAMES[this.props.month]}</h2>
+      return <div className="text-center font-weight-bold">
+        <div className="row justify-content-center">
+          <span className="mx-5 force-pointer" onClick={onPrev} >{'<'}</span>
+          <h2>{`${MONTH_NAMES[this.props.month]} ${year}`}</h2>
+          <span className="mx-5 force-pointer" onClick={onNext}>{'>'}</span>
+        </div>
         <div className="row">
           {days}
         </div>
@@ -96,39 +102,38 @@ class Calendar extends React.Component {
         firstOfMonth: null,
         daysInMonth: null
     };
+
+    this.getPrev = this.getPrev.bind(this);
+    this.getNext = this.getNext.bind(this);
   }
 
-  calc(year, month) {
+  getPrev() {
+    let { month, year } = this.state;
+    let m = moment([year, month]).subtract(1, 'months');
 
+    this.setState({ month: m.month(), year: m.year() })
   }
 
-  componentWillMount() {
+  getNext() {
+    let { month, year } = this.state;
+    let m = moment([year, month]).add(1, 'months');
 
+    this.setState({ month: m.month(), year: m.year() })
   }
-
-  componentDidMount() {
-
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-
-  }
-
-  getPrev() {}
-
-  getNext() {}
 
   selectDate(year, month, date, element) {}
 
   render() {
+      const { month, year } = this.state;
+
       return (
           <div className="r-calendar text-center">
               <div className="r-inner container">
-                  <Header month={this.state.month} onPrev={this.getPrev} onNext={this.getNext} />
+                  <Header month={month} year={year} onPrev={this.getPrev} onNext={this.getNext} />
 
                   <MonthDates
-                    month={this.state.month}
-                    year={this.state.year}
+                    month={month}
+                    year={year}
                     onSelect={this.selectDate} />
               </div>
           </div>
