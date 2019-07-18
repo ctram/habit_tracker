@@ -58,6 +58,10 @@ export default class App extends React.Component {
     const { currentUser } = this.props;
     let status = null;
 
+    if (!currentUser) {
+      return;
+    }
+
     fetchPlus(`http://localhost:3000/users/${currentUser.id}/habits`)
       .then(res => {
         status = res.status;
@@ -88,7 +92,7 @@ export default class App extends React.Component {
           {
             alert && <AlertBar alertType={alert.alertType} message={alert.message} />
           }
-          <div className="py-5">
+          <div className="p-5">
             <Switch>
                 <Route exact path='/home' component={Home} />
                 <Route path='/sign-in' component={SignInPage} />
