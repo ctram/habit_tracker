@@ -47,7 +47,11 @@ class Week extends React.Component {
 
       days.push(
         <div className={`col ${className}`} key={i}>
-          {dayNum}
+          <div className="d-flex justify-content-center">
+            <div className="completed-day">
+              {dayNum}
+            </div>
+          </div>
         </div>
       );
 
@@ -71,14 +75,15 @@ class MonthDates extends React.Component {
       let domWeek = [];
       let i = 0;
 
-
       if (startDayMoment.day() !== 0) {
         startDayMoment = startDayMoment.subtract(startDayMoment.day(), 'days')
       }
 
       while (startDayMoment.isBefore(lastDayOfMonthMoment) || startDayMoment.isSame(lastDayOfMonthMoment)) {
         domWeek.push(
-          <Week startDayMoment={moment(startDayMoment)} year={year} monthMoment={monthMoment} key={i} />
+          <div className="my-1" key={i}>
+            <Week startDayMoment={moment(startDayMoment)} year={year} monthMoment={monthMoment} />
+          </div>
         );
 
         startDayMoment = startDayMoment.add(7, 'days');
@@ -96,20 +101,7 @@ class Calendar extends React.Component {
     let date = new Date();
     this.state = {
         year: date.getFullYear(),
-        month: date.getMonth(),
-        selectedYear: date.getFullYear(),
-        selectedMonth: date.getMonth(),
-        selectedDate: date.getDate(),
-        selectedDt: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
-        startDay: 1,
-        weekNumbers: false,
-        minDate: this.props.minDate ? this.props.minDate : null,
-        disablePast: this.props.disablePast ? this.props.disablePast : false,
-        dayNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-        monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        monthNamesFull: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        firstOfMonth: null,
-        daysInMonth: null
+        month: date.getMonth()
     };
 
     this.getPrev = this.getPrev.bind(this);
