@@ -17,3 +17,11 @@
  .force-pointer {
    cursor: pointer;
  }
+
+.completed-day {
+  background-color: blue;
+  height: 3em;
+  width: 3em;
+  border-radius: 50%;
+  line-height: 3em;
+}
