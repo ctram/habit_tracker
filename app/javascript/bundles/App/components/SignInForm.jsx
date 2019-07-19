@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
+import { signIn as signInActionCreator} from '../actions/usersActionCreators';
+import {setCurrentAlert } from '../actions/alertsActionCreators';
 
 class SignInForm extends React.Component {
   constructor(props) {
@@ -27,30 +29,17 @@ class SignInForm extends React.Component {
   }
 
   signIn(email, password) {
-    let status = null;
+    const { dispatch } = this.props;
 
-    fetchPlus('http://localhost:3000/sessions', {
-      method: 'POST',
-      body: JSON.stringify({ user: { email, password } })
-    })
-      .then(res => {
-        status = res.status;
-        return res.json()
-      })
-      .then(obj => {
-        if (status === 200) {
-          this.props.history.push('/');
-          this.props.alertSignInError('success', 'Successfully signed in.')
-          this.props.setCurrentUser(obj.user);
-          return;
-        }
-
-        throw(obj.message);
+    dispatch(signInActionCreator(email, password))
+      .then(() => {
+        this.props.history.push('/');
+        dispatch(setCurrentAlert('success', 'Successfully signed in.'));
       })
       .catch(e => {
-        this.props.alertSignInError('primary', 'Incorrect email or passsword.')
+        dispatch(setCurrentAlert('danger', 'Incorrect email or passsword.'));
         console.error(e);
-      })
+      });
   }
 
   signUp(email, password) {
