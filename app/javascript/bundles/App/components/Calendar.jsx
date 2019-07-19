@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { updateHabitCompletedForDate } from '../actions/habitsActionCreators';
+import { setCurrentAlert } from '../actions/alertsActionCreators';
 import { connect } from 'react-redux';
 
 const DAY_NAMES = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -20,7 +21,7 @@ class Header extends React.Component {
       return <div className="text-center font-weight-bold border-bottom">
         <div className="row justify-content-center">
           <span className="mx-5 force-pointer" onClick={onPrev} >{'<'}</span>
-          <h2>{`${MONTH_NAMES[this.props.month]} ${year}`}</h2>
+          <h2 className="w-50">{`${MONTH_NAMES[this.props.month]} ${year}`}</h2>
           <span className="mx-5 force-pointer" onClick={onNext}>{'>'}</span>
         </div>
         <div className="row font-weight-bolder">
@@ -40,12 +41,16 @@ class Week extends React.Component {
   onClick(e) {
     let isCompleted = !e.currentTarget.getAttribute('data-is-completed'); // flip the current state;
     let date = e.currentTarget.getAttribute('data-date');
-    let { habit, currentUser } = this.props;
+    let { habit, currentUser, dispatch } = this.props;
 
     updateHabitCompletedForDate(habit, isCompleted, date, currentUser)
       .then(action => {
-        this.props.dispatch(action);
+        dispatch(action);
       })
+      .catch(e => {
+        dispatch(setCurrentAlert('danger', 'There was an error logging your habit. Please refresh the page and try again.'));
+        console.error(e);
+      });
   }
 
   render() {
@@ -62,7 +67,7 @@ class Week extends React.Component {
       let isCompleted = completedDates[fullDate];
 
       if (dayMoment.isBefore(monthMoment) || dayMoment.isAfter(lastDayOfMonthMoment)) {
-        fontClass = 'font-weight-lighter';
+        fontClass = 'font-weight-lighter font-italic';
       } else {
         fontClass = 'font-weight-bold';
       }
