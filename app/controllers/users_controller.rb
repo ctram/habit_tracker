@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     user = User.find_by_email(email)
 
     if user
-      return render(status: 409, json: { message: 'email_already_taken' })
+      return render(status: 409, json: { message: 'EmailAlreadyTaken' })
     end
 
     user = User.create(email: email, password: password)
