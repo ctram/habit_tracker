@@ -4,6 +4,7 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as alertsActions from '../actions/alertsActionCreators';
+import { fetchHabits } from '../actions/habitsActionCreators';
 import Calendar from '../components/Calendar';
 
 class Habit extends React.Component {
@@ -16,20 +17,25 @@ class Habit extends React.Component {
   delete() {
     const { currentUser, habit, fetchHabits } = this.props;
 
+    const result = window.confirm('Are you sure you want to delete this habit? This cannot be undone.');
+
+    if (!result) {
+      return;
+    }
+
     fetchPlus(`http://localhost:3000/users/${currentUser.id}/habits/${habit.id}`, {
       method: 'DELETE'
     })
       .then(res => {
         this.props.dispatch(alertsActions.setCurrentAlert('primary', 'Habit deleted.'));
         this.props.history.push('/');
-        this.props.fetchHabits();
+        this.props.dispatch(fetchHabits());
       });
   }
 
   render() {
-    let { habit: { title, dates } } = this.props;
-
-
+    let { habit } = this.props;
+    let { title, dates } = habit;
 
     return <div>
       <h1>
@@ -43,7 +49,7 @@ class Habit extends React.Component {
 
         <div className="card my-5">
           <div className="card-body">
-            <Calendar completedDates={dates} />
+            <Calendar completedDates={dates} habit={habit} />
           </div>
         </div>
       </div>

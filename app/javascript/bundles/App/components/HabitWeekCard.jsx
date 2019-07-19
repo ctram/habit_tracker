@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { updateHabitCompletedForDate } from '../actions/habitsActionCreators';
 
 class HabitWeekCard extends React.Component {
   constructor(props) {
@@ -14,26 +16,16 @@ class HabitWeekCard extends React.Component {
   onChange(e) {
     e.preventDefault();
 
-    const { user_id, id } = this.props.habit;
-    const isChecked = e.target.checked;
+    let { habit, currentUser } = this.props;
+    const isCompleted = e.target.checked;
     const idx = Number(e.target.getAttribute('data-idx'));
     let { fullDate } = this.props.priorDays[idx];
 
-    let status;
 
-    fetchPlus(`http://localhost:3000/users/${user_id}/habits/${id}/update_habit_completed_for_date`, {
-      method: 'POST',
-      body: JSON.stringify({ habit: { id, date: fullDate, completed: isChecked }})
-    })
-      .then(res => {
-        status = res.status;
-
-        return res.json();
+    updateHabitCompletedForDate(habit, isCompleted, fullDate, currentUser)
+      .then(action => {
+        this.props.dispatch(action);
       })
-      .then(res => {
-        return this.props.fetchHabits();
-      })
-      .catch(e => console.error(e));
   }
 
   render() {
@@ -72,4 +64,12 @@ class HabitWeekCard extends React.Component {
   }
 }
 
-export default withRouter(HabitWeekCard);
+const mapStateToProps = state => {
+  return {
+    currentUser: state.users.currentUser
+  };
+};
+
+let HabitWeekCardContainer = connect(mapStateToProps)(HabitWeekCard);
+
+export default withRouter(HabitWeekCardContainer);

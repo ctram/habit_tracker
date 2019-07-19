@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import { updateHabitCompletedForDate } from '../actions/habitsActionCreators';
+import { connect } from 'react-redux';
 
 const DAY_NAMES = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -29,6 +31,23 @@ class Header extends React.Component {
 }
 
 class Week extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick(e) {
+    let isCompleted = !e.currentTarget.getAttribute('data-is-completed'); // flip the current state;
+    let date = e.currentTarget.getAttribute('data-date');
+    let { habit, currentUser } = this.props;
+
+    updateHabitCompletedForDate(habit, isCompleted, date, currentUser)
+      .then(action => {
+        this.props.dispatch(action);
+      })
+  }
+
   render() {
     let { startDayMoment: dayMoment, monthMoment, completedDates } = this.props;
 
@@ -36,9 +55,11 @@ class Week extends React.Component {
     let lastDayOfMonthMoment = moment(monthMoment).add(1, 'months').subtract(1, 'days');
 
     for (let i = 0; i < 7; i++) {
+      let fullDate = dayMoment.format('YYYY-MM-DD')
       let dayNum = dayMoment.date();
       let fontClass = '';
-      let dayClass = 'day';
+      let dayClass = 'force-pointer day';
+      let isCompleted = completedDates[fullDate];
 
       if (dayMoment.isBefore(monthMoment) || dayMoment.isAfter(lastDayOfMonthMoment)) {
         fontClass = 'font-weight-lighter';
@@ -46,12 +67,12 @@ class Week extends React.Component {
         fontClass = 'font-weight-bold';
       }
 
-      dayClass += completedDates[dayMoment.format('YYYY-MM-DD')] ? ' day-completed' : '';
+      dayClass += isCompleted ? ' day-completed' : '';
 
       days.push(
         <div className={`col ${fontClass}`} key={i}>
           <div className="d-flex justify-content-center">
-            <div className={dayClass}>
+            <div className={dayClass} data-date={fullDate} data-is-completed={isCompleted} onClick={this.onClick}>
               {dayNum}
             </div>
           </div>
@@ -67,9 +88,18 @@ class Week extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    currentUser: state.users.currentUser
+  };
+}
+
+const WeekContainer = connect(mapStateToProps)(Week);
+
 class MonthDates extends React.Component {
     render() {
-      const { year, month, completedDates } = this.props;
+      const { year, month, completedDates, habit } = this.props;
+
 
       let lastDayOfMonthMoment = moment([year, month]).add(1, 'months').subtract(1, 'days');
       let monthMoment = moment([year, month]);
@@ -85,7 +115,12 @@ class MonthDates extends React.Component {
       while (startDayMoment.isBefore(lastDayOfMonthMoment) || startDayMoment.isSame(lastDayOfMonthMoment)) {
         domWeek.push(
           <div className="my-1" key={i}>
-            <Week startDayMoment={moment(startDayMoment)} year={year} monthMoment={monthMoment} completedDates={completedDates} />
+            <WeekContainer
+              startDayMoment={moment(startDayMoment)}
+              year={year}
+              monthMoment={monthMoment}
+              completedDates={completedDates}
+              habit={habit} />
           </div>
         );
 
@@ -129,7 +164,9 @@ class Calendar extends React.Component {
 
   render() {
       const { month, year } = this.state;
-      const { completedDates } = this.props;
+      const { completedDates, habit } = this.props;
+
+
 
       return (
           <div className="r-calendar text-center">
@@ -140,7 +177,8 @@ class Calendar extends React.Component {
                     month={month}
                     year={year}
                     onSelect={this.selectDate}
-                    completedDates={completedDates} />
+                    completedDates={completedDates}
+                    habit={habit} />
               </div>
           </div>
       );

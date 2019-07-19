@@ -10,11 +10,10 @@ import priorDaysHelper from '../../../helpers/days-in-week';
 class HabitsIndexPage extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   render() {
-    const { habits } = this.props;
+    const { habits, currentUser } = this.props;
 
     let inner = 'No habits. Go ahead and create one.';
 
@@ -23,7 +22,11 @@ class HabitsIndexPage extends React.Component {
     if (habits.length > 0) {
       inner = habits.map((habit, idx) => {
         return <div className="m-2" key={idx}>
-          <HabitWeekCard habit={habit} priorDays={priorDays} fetchHabits={this.props.fetchHabits} />
+          <HabitWeekCard
+            habit={habit}
+            priorDays={priorDays}
+            fetchHabits={this.props.fetchHabits}
+            currentUser={currentUser} />
         </div>;
       });
     }

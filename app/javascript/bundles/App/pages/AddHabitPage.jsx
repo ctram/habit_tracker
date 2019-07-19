@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
-import setCurrentAlert from '../actions/alertsActionCreators';
+import { setCurrentAlert } from '../actions/alertsActionCreators';
+import { fetchHabits } from '../actions/habitsActionCreators';
 
 export default class AddHabitPage extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ export default class AddHabitPage extends React.Component {
 
     const title = this.inputTitle.current.value
     const { currentUser } = this.props;
+    let status;
 
     if (!title) {
       return;
@@ -26,14 +28,22 @@ export default class AddHabitPage extends React.Component {
       body: JSON.stringify({ habit: { title }})
     })
       .then(res => {
-        if (res.status === 201) {
-          this.props.history.push('/');
-          this.props.dispatch(setCurrentAlert('success', 'Habit created.'));
-        }
+        status = res.status;
 
         return res.json();
       })
       .then(res => {
+        if (status === 201) {
+          this.props.dispatch(setCurrentAlert('success', 'Habit created.'));
+
+          return fetchHabits(currentUser)
+            .then(habits => {
+              this.props.dispatch(habits);
+              this.props.history.push('/');
+            })
+            .catch(e => console.error(e));
+        }
+
         throw(res.message);
       })
       .catch(e => console.error(e));
