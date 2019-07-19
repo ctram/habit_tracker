@@ -19,19 +19,17 @@ class NavBar extends React.Component {
   signOut(e) {
     e.preventDefault();
 
-    return fetchPlus('http://localhost:3000/sessions', {
-      method: 'DELETE'
-    })
+    const { dispatch, history } = this.props;
+
+    this.props.dispatch(signOut())
       .then(() => {
-        this.props.history.push('/sign-in');
-        this.props.dispatch(setCurrentUser(null));
-        this.props.dispatch(setCurrentAlert('success', 'Successfully logged out.'));
+        history.push('/sign-in');
+        dispatch(setCurrentAlert('success', 'Successfully logged out.'));
       })
       .catch(e => console.error(e));
   }
 
   resetAlertBar() {
-
     if (this.props.currentAlert) {
       this.props.dispatch(clearCurrentAlert());
     }
@@ -42,7 +40,7 @@ class NavBar extends React.Component {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link className="navbar-brand" href="#" to="/">Navbar</Link>
+          <Link className="navbar-brand" href="#" to="/">Habit Tracker</Link>
 
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>

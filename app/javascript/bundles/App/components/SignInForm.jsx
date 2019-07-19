@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
-import { signIn as signInActionCreator} from '../actions/usersActionCreators';
+import * as usersActionCreators from '../actions/usersActionCreators';
 import {setCurrentAlert } from '../actions/alertsActionCreators';
 
 class SignInForm extends React.Component {
@@ -31,7 +31,7 @@ class SignInForm extends React.Component {
   signIn(email, password) {
     const { dispatch } = this.props;
 
-    dispatch(signInActionCreator(email, password))
+    dispatch(usersActionCreators.signIn(email, password))
       .then(() => {
         this.props.history.push('/');
         dispatch(setCurrentAlert('success', 'Successfully signed in.'));
@@ -44,25 +44,29 @@ class SignInForm extends React.Component {
 
   signUp(email, password) {
     let status = null;
+    const { dispatch } = this.props;
 
-    fetchPlus('http://localhost:3000/users', {
-      method: 'POST',
-      body: JSON.stringify({ user: { email, password } })
-    })
+    dispatch(usersActionCreators.signUp(email, password))
       .then(res => {
         status = res.status;
         return res.json()
       })
       .then(obj => {
         if (status === 201) {
-          this.props.alertSignInError('success', 'Sign up successful.')
+          dispatch(setCurrentAlert('success', 'Sign up successful.'));
           return this.props.history.push('/sign-in');
         }
 
         throw(obj.message);
       })
       .catch(e => {
-        this.props.alertSignInError('primary', 'There was an error signing up.')
+        let message = 'There was an error signing up.';
+
+        if (e === 'EmailAlreadyTaken') {
+          message += ' Email is already taken.';
+        }
+
+        dispatch(setCurrentAlert('primary', message));
         console.error(e);
       });
   }

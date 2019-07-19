@@ -8,8 +8,7 @@ export function setCurrentUser(user)
 };
 
 export function signIn(email, password) {
-
-  return function (dispatch) {
+  return dispatch => {
     let status = null;
 
     return fetchPlus('http://localhost:3000/sessions', {
@@ -30,9 +29,35 @@ export function signIn(email, password) {
       throw(obj.message);
     })
     .catch(e => {
-      console.error(e);
-      return Promise.reject(e)
+      throw(e);
     });
   };
+}
 
+export function signUp(email, password) {
+  return dispatch => {
+    let status = null;
+
+    return fetchPlus('http://localhost:3000/users', {
+      method: 'POST',
+      body: JSON.stringify({ user: { email, password } })
+    })
+    .catch(e => {
+      throw(e)
+    });
+  };
+}
+
+export function signOut() {
+  return dispatch => {
+    return fetchPlus('http://localhost:3000/sessions', {
+      method: 'DELETE'
+    })
+      .then(() => {
+        dispatch(setCurrentUser(null));
+      })
+      .catch(e => {
+        throw(e)
+      });
+  };
 }
