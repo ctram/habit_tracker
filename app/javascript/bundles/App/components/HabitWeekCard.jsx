@@ -16,16 +16,12 @@ class HabitWeekCard extends React.Component {
   onChange(e) {
     e.preventDefault();
 
-    let { habit, currentUser } = this.props;
+    let { habit, currentUser, dispatch } = this.props;
     const isCompleted = e.target.checked;
     const idx = Number(e.target.getAttribute('data-idx'));
     let { fullDate } = this.props.priorDays[idx];
 
-
-    updateHabitCompletedForDate(habit, isCompleted, fullDate, currentUser)
-      .then(action => {
-        this.props.dispatch(action);
-      })
+    dispatch(updateHabitCompletedForDate(habit, isCompleted, fullDate, currentUser));
   }
 
   render() {
