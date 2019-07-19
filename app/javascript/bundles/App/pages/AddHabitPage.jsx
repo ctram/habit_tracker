@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import fetchPlus from '../../../helpers/fetch-plus';
 import { setCurrentAlert } from '../actions/alertsActionCreators';
-import { fetchHabits } from '../actions/habitsActionCreators';
+import { addHabit } from '../actions/habitsActionCreators';
+import { connect } from 'react-redux';
 
-export default class AddHabitPage extends React.Component {
+class AddHabitPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,37 +17,16 @@ export default class AddHabitPage extends React.Component {
     e.preventDefault();
 
     const title = this.inputTitle.current.value
-    const { currentUser } = this.props;
-    let status;
+    const { currentUser, history, dispatch } = this.props;
 
-    if (!title) {
-      return;
-    }
-
-    fetchPlus(`http://localhost:3000/users/${currentUser.id}/habits`, {
-      method: 'POST',
-      body: JSON.stringify({ habit: { title }})
-    })
-      .then(res => {
-        status = res.status;
-
-        return res.json();
+    dispatch(addHabit(title, currentUser))
+      .then(() => {
+        history.push('/');
       })
-      .then(res => {
-        if (status === 201) {
-          this.props.dispatch(setCurrentAlert('success', 'Habit created.'));
+      .catch(e => {
+        console.error(e);
+      });
 
-          return fetchHabits(currentUser)
-            .then(habits => {
-              this.props.dispatch(habits);
-              this.props.history.push('/');
-            })
-            .catch(e => console.error(e));
-        }
-
-        throw(res.message);
-      })
-      .catch(e => console.error(e));
   }
 
   render() {
@@ -62,3 +42,5 @@ export default class AddHabitPage extends React.Component {
     </div>;
   }
 }
+
+export default connect(null, null)(AddHabitPage);
