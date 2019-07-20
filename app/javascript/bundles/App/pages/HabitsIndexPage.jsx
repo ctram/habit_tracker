@@ -37,9 +37,12 @@ class HabitsIndexPage extends React.Component {
             Add Habit
           </Link>
 
-          <div className="mt-5 w-75">
-            <DaysInWeek priorDays={priorDays} />
-          </div>
+          {
+            habits.length > 0
+              && <div className="mt-5 w-75">
+                <DaysInWeek priorDays={priorDays} />
+              </div>
+          }
 
           <div className="my-5 w-75 text-center">
             {inner}
