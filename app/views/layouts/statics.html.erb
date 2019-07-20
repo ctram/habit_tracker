@@ -15,8 +15,10 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'app' %>
 
+    <script src="https://kit.fontawesome.com/07241b51dd.js"></script>
+
     <script>
-      window.SERVER_DOMAIN = "<%= root_url %>";
+      window.SERVER_DOMAIN = "<%= root_url.slice(0, root_url.length - 1) %>";
     </script>
   </head>
 
