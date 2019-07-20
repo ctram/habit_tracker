@@ -10,14 +10,15 @@ class HabitWeekCard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onChange = this.onChange.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
-  onChange(e) {
+  onClick(e) {
     e.preventDefault();
 
     let { habit, currentUser, dispatch } = this.props;
-    const isCompleted = e.target.checked;
+    let isCompleted = e.target.getAttribute('data-is-completed') === 'true';
+    isCompleted = !isCompleted // now update to the opposite state.
     const idx = Number(e.target.getAttribute('data-idx'));
     let { fullDate } = this.props.priorDays[idx];
 
@@ -41,9 +42,18 @@ class HabitWeekCard extends React.Component {
     )
 
     for (let i = 0; i < 6; i++) {
+      let isCompleted = dates.indexOf(priorDayNums[i]) > -1;
+      let elementClass = "far force-pointer font-size-double";
+
+      elementClass += isCompleted ? " fa-check-square" : " fa-square";
+
       inner.push(
         <div className="col-1 d-flex flex-column" key={i}>
-          <input type="checkbox" onChange={this.onChange} data-idx={i} checked={dates.indexOf(priorDayNums[i]) > -1} />
+          <i
+            onClick={this.onClick}
+            data-is-completed={isCompleted}
+            data-idx={i}
+            className={elementClass} />
         </div>
       );
     }

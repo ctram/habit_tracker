@@ -64,7 +64,6 @@ export function fetchHabits(currentUser) {
       throw(e);
     });
   };
-
 }
 
 export function updateHabitCompletedForDate(habit, isCompleted, date, currentUser) {
