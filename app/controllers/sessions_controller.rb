@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
   end
 
   def authenticate
-    return render(status: 201, json: {}) unless current_user
+    return render(status: 200, json: {}) unless current_user
 
     render(status: 200, json: { user: current_user.slice(:email, :id) })
   end
