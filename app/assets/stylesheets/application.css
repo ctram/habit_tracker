@@ -26,5 +26,9 @@
 }
 
 .day-completed {
-  background-color: blue;
+  background-color: yellow;
+}
+
+.font-size-double {
+  font-size: 2rem;
 }
