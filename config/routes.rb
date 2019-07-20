@@ -16,5 +16,7 @@ Rails.application.routes.draw do
 
   root 'statics#index'
 
+  get '/sign-in', to: 'statics#sign_in'
+
   get '*foo', to: 'statics#index'
 end
