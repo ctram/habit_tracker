@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Home from '../components/Home';
+import MissingEntityPage from './MissingEntityPage';
 import SignInPage from './SignInPage';
 import NavBarContainer from '../containers/NavBarContainer';
 import HabitsIndexPage from './HabitsIndexPage';
@@ -43,6 +43,7 @@ export default class App extends React.Component {
     const habitRoutes = habits.map((habit, idx) => {
         return <Route path={`/habits/${habit.id}`} render={() => (<HabitPage habit={habit} currentUser={currentUser} />)} key={idx} />;
     });
+
     return (
         <Router>
           <NavBarContainer />
@@ -51,20 +52,18 @@ export default class App extends React.Component {
           }
           <div className="p-5">
             <Switch>
-                <Route exact path='/home' component={Home} />
                 <Route path='/sign-in' component={SignInPage} />
                 <Route path='/sign-up' render={() => (<SignInPage type="sign-up" />)} />
                 <Route path='/habits/new' component={AddHabitPageContainer} />
                 {
                   currentUser
                     && <Route exact path='/' render={() => (<HabitsIndexPage habits={habits} />)} />
-                        || <Route path='/' render={() => ('root when not signed in')} />
                 }
                 {
                   currentUser
                     && habitRoutes
                 }
-
+                <Route path='/' component={MissingEntityPage} />
             </Switch>
           </div>
         </Router>
