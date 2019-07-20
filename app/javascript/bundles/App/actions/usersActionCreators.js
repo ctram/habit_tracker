@@ -1,4 +1,5 @@
 import fetchPlus from '../../../helpers/fetch-plus';
+import { fetchHabits } from './habitsActionCreators';
 
 import { SET_CURRENT_USER } from '../constants/constants';
 
@@ -22,8 +23,7 @@ export function signIn(email, password) {
     .then(obj => {
       if (status === 200) {
         dispatch(setCurrentUser(obj.user));
-
-        return Promise.resolve();
+        return dispatch(fetchHabits(obj.user));
       }
 
       throw(obj.message);
@@ -58,6 +58,32 @@ export function signOut() {
       })
       .catch(e => {
         throw(e)
+      });
+  };
+}
+
+export function authenticateUser() {
+  return dispatch => {
+    return fetchPlus(`${SERVER_DOMAIN}/sessions`)
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        }
+
+        return {};
+      })
+      .then(res => {
+        const { user } = res;
+
+        if (user) {
+          dispatch(setCurrentUser(user));
+          return Promise.resolve(user);
+        }
+
+        throw('Not authenticated.')
+      })
+      .catch(e => {
+        throw(e);
       });
   };
 }

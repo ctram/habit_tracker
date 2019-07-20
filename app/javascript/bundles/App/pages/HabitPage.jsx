@@ -4,7 +4,7 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as alertsActions from '../actions/alertsActionCreators';
-import { fetchHabits } from '../actions/habitsActionCreators';
+import { fetchHabits, deleteHabit } from '../actions/habitsActionCreators';
 import Calendar from '../components/Calendar';
 
 class Habit extends React.Component {
@@ -15,7 +15,7 @@ class Habit extends React.Component {
   }
 
   delete() {
-    const { currentUser, habit, fetchHabits } = this.props;
+    const { currentUser, habit, fetchHabits, dispatch } = this.props;
 
     const result = window.confirm('Are you sure you want to delete this habit? This cannot be undone.');
 
@@ -23,13 +23,12 @@ class Habit extends React.Component {
       return;
     }
 
-    fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits/${habit.id}`, {
-      method: 'DELETE'
-    })
-      .then(res => {
-        this.props.dispatch(alertsActions.setCurrentAlert('primary', 'Habit deleted.'));
+    dispatch(deleteHabit(currentUser, habit))
+      .then(() => {
         this.props.history.push('/');
-        this.props.dispatch(fetchHabits());
+      })
+      .catch(e => {
+        console.error(e);
       });
   }
 

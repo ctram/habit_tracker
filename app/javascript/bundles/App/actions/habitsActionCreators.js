@@ -95,3 +95,30 @@ export function updateHabitCompletedForDate(habit, isCompleted, date, currentUse
     });
   };
 }
+
+export function deleteHabit(currentUser, habit) {
+  let status;
+
+  return dispatch => {
+    return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits/${habit.id}`, {
+      method: 'DELETE'
+    })
+      .then(res => {
+
+        if (res.status !== 204) {
+          dispatch(setCurrentAlert('danger', 'There was an error deleting the habit. Please try again.'));
+          throw(res.message);
+        }
+
+        dispatch(setCurrentAlert('primary', 'Habit deleted.'));
+        return dispatch(fetchHabits(currentUser));
+      })
+      .catch(e => {
+
+        throw(e);
+      });
+  };
+
+
+
+}
