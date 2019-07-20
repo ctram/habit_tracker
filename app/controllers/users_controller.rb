@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   protect_from_forgery except: :create
 
-
   def create
     puts 'just testings log'
     email, password = params[:user].values_at :email, :password
