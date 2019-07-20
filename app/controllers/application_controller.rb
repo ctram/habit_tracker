@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :login, :who_is_logged_in?
+  before_action :verify_user_logged_in
 
   def verify_user_logged_in
-    return render(status: 401, json: { message: 'UserNotLoggedIn' }) unless current_user
+    redirect_to '/sign-in' unless current_user
   end
 
   def current_user
