@@ -23,7 +23,7 @@ class Habit extends React.Component {
       return;
     }
 
-    fetchPlus(`http://localhost:3000/users/${currentUser.id}/habits/${habit.id}`, {
+    fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits/${habit.id}`, {
       method: 'DELETE'
     })
       .then(res => {

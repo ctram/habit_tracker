@@ -34,7 +34,7 @@ export default class App extends React.Component {
   }
 
   authenticateUser() {
-    return fetchPlus('http://localhost:3000/sessions')
+    return fetchPlus('${SERVER_DOMAIN}/sessions')
       .then(res => {
         if (res.status === 200) {
           return res.json();
@@ -62,7 +62,7 @@ export default class App extends React.Component {
       return;
     }
 
-    fetchPlus(`http://localhost:3000/users/${currentUser.id}/habits`)
+    fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits`)
       .then(res => {
         status = res.status;
 

@@ -11,7 +11,7 @@ export function signIn(email, password) {
   return dispatch => {
     let status = null;
 
-    return fetchPlus('http://localhost:3000/sessions', {
+    return fetchPlus(`${SERVER_DOMAIN}/sessions`, {
       method: 'POST',
       body: JSON.stringify({ user: { email, password } })
     })
@@ -38,7 +38,7 @@ export function signUp(email, password) {
   return dispatch => {
     let status = null;
 
-    return fetchPlus('http://localhost:3000/users', {
+    return fetchPlus(`${SERVER_DOMAIN}/users`, {
       method: 'POST',
       body: JSON.stringify({ user: { email, password } })
     })
@@ -50,7 +50,7 @@ export function signUp(email, password) {
 
 export function signOut() {
   return dispatch => {
-    return fetchPlus('http://localhost:3000/sessions', {
+    return fetchPlus(`${SERVER_DOMAIN}/sessions`, {
       method: 'DELETE'
     })
       .then(() => {

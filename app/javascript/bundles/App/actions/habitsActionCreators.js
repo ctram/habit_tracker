@@ -15,7 +15,7 @@ export function addHabit(title, currentUser) {
       return Promise.reject('There must be a title');
     }
 
-    return fetchPlus(`http://localhost:3000/users/${currentUser.id}/habits`, {
+    return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits`, {
       method: 'POST',
       body: JSON.stringify({ habit: { title }})
     })
@@ -47,7 +47,7 @@ export function fetchHabits(currentUser) {
       return Promise.resolve();
     }
 
-    return fetchPlus(`http://localhost:3000/users/${currentUser.id}/habits`)
+    return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits`)
     .then(res => {
       status = res.status;
 
@@ -73,7 +73,7 @@ export function updateHabitCompletedForDate(habit, isCompleted, date, currentUse
   let status;
 
   return dispatch => {
-    return fetchPlus(`http://localhost:3000/users/${user_id}/habits/${id}/update_habit_completed_for_date`, {
+    return fetchPlus(`${SERVER_DOMAIN}/users/${user_id}/habits/${id}/update_habit_completed_for_date`, {
       method: 'POST',
       body: JSON.stringify({ habit: { id, date, completed: isCompleted }})
     })
@@ -94,5 +94,4 @@ export function updateHabitCompletedForDate(habit, isCompleted, date, currentUse
       throw(e);
     });
   };
-
 }
