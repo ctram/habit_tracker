@@ -43,10 +43,7 @@ class Week extends React.Component {
     let date = e.currentTarget.getAttribute('data-date');
     let { habit, currentUser, dispatch } = this.props;
 
-    updateHabitCompletedForDate(habit, isCompleted, date, currentUser)
-      .then(action => {
-        dispatch(action);
-      })
+    dispatch(updateHabitCompletedForDate(habit, isCompleted, date, currentUser))
       .catch(e => {
         dispatch(setCurrentAlert('danger', 'There was an error logging your habit. Please refresh the page and try again.'));
         console.error(e);
