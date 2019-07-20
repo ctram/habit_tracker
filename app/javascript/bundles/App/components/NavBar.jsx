@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
-import { setCurrentUser } from '../actions/usersActionCreators';
+import { setCurrentUser, signOut } from '../actions/usersActionCreators';
 import { setCurrentAlert, clearCurrentAlert } from '../actions/alertsActionCreators';
 import fetchPlus from '../../../helpers/fetch-plus';
 
