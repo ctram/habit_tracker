@@ -1,1 +1,1 @@
-web: rails db:migrate
+web: rails db:migrate && rails server
