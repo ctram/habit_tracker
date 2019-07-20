@@ -8,9 +8,7 @@ class DaysInWeek extends React.Component {
     let priorDays = this.props.priorDays;
 
     inner.push(
-      <div className="col-5" key="padding">
-        Padding
-      </div>
+      <div className="col-5" key="padding" />
     )
 
     for (let i = 0; i < 6; i++) {
