@@ -16,11 +16,11 @@ class DaysInWeek extends React.Component {
 
       dayName = `${dayName[0].toUpperCase()}${dayName.slice(1,3)}`;
 
-      let dayNameClass = dayIdx === 0 ? 'text-danger' : null;
+      let dayNameClass = dayIdx === 0 ? 'text-danger' : '';
 
       inner.push(
-        <div className={`col-1 d-flex flex-column ${dayNameClass}`} key={i}>
-          <span>
+        <div className={`col-1 d-flex flex-column ${dayNameClass} text-center`} key={i}>
+          <span className="font-weight-bold">
             {dayName}
           </span>
           <span>
