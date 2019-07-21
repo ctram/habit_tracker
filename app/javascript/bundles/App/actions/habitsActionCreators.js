@@ -1,6 +1,7 @@
 import fetchPlus from '../../../helpers/fetch-plus';
 import { SET_HABITS_INDEX } from '../constants/constants';
 import { setCurrentAlert } from './alertsActionCreators';
+import { startSpinner, endSpinner } from './spinnersActionCreators';
 
 export function setHabitsIndex(habits)
 {
@@ -14,6 +15,8 @@ export function addHabit(title, currentUser) {
     if (!title) {
       return Promise.reject('There must be a title');
     }
+
+    dispatch(startSpinner());
 
     return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits`, {
       method: 'POST',
@@ -35,7 +38,10 @@ export function addHabit(title, currentUser) {
     .catch(e => {
       dispatch(setCurrentAlert('danger', 'There was an error creating your habit. Please try again.'));
       throw(e);
-    });
+    })
+    .finally(() => {
+      dispatch(endSpinner());
+    })
   };
 }
 
@@ -46,6 +52,8 @@ export function fetchHabits(currentUser) {
     if (!currentUser) {
       return Promise.resolve();
     }
+
+    dispatch(startSpinner());
 
     return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits`)
     .then(res => {
@@ -62,6 +70,9 @@ export function fetchHabits(currentUser) {
     })
     .catch(e => {
       throw(e);
+    })
+    .finally(() => {
+      dispatch(endSpinner());
     });
   };
 }
@@ -70,6 +81,8 @@ export function updateHabitCompletedForDate(habit, isCompleted, date, currentUse
   const { user_id, id } = habit;
 
   let status;
+
+  dispatch(startSpinner());
 
   return dispatch => {
     return fetchPlus(`${SERVER_DOMAIN}/users/${user_id}/habits/${id}/update_habit_completed_for_date`, {
@@ -91,19 +104,23 @@ export function updateHabitCompletedForDate(habit, isCompleted, date, currentUse
     .catch(e => {
       dispatch(setCurrentAlert('danger', 'There was an error logging your habit. Please refresh the page and try again.'));
       throw(e);
-    });
+    })
+    .finally(() => {
+      dispatch(endSpinner());
+    })
   };
 }
 
 export function deleteHabit(currentUser, habit) {
   let status;
 
+  dispatch(startSpinner());
+
   return dispatch => {
     return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits/${habit.id}`, {
       method: 'DELETE'
     })
       .then(res => {
-
         if (res.status !== 204) {
           dispatch(setCurrentAlert('danger', 'There was an error deleting the habit. Please try again.'));
           throw(res.message);
@@ -113,9 +130,11 @@ export function deleteHabit(currentUser, habit) {
         return dispatch(fetchHabits(currentUser));
       })
       .catch(e => {
-
         throw(e);
-      });
+      })
+      .finally(() => {
+        dispatch(endSpinner());
+      })
   };
 
 

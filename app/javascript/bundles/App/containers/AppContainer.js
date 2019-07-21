@@ -5,7 +5,8 @@ const mapStateToProps = (state) => {
   return {
     currentUser: state.users.currentUser,
     alert: state.alerts.currentAlert,
-    habits: state.habits.habits
+    habits: state.habits.habits,
+    showSpinner: state.spinners.showSpinner
   }
 };
 

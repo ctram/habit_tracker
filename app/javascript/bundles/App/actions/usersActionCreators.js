@@ -1,5 +1,6 @@
 import fetchPlus from '../../../helpers/fetch-plus';
 import { fetchHabits } from './habitsActionCreators';
+import { startSpinner, endSpinner } from './spinnersActionCreators';
 
 import { SET_CURRENT_USER } from '../constants/constants';
 
@@ -11,6 +12,8 @@ export function setCurrentUser(user)
 export function signIn(email, password) {
   return dispatch => {
     let status = null;
+
+    dispatch(startSpinner());
 
     return fetchPlus(`${SERVER_DOMAIN}/sessions`, {
       method: 'POST',
@@ -30,7 +33,10 @@ export function signIn(email, password) {
     })
     .catch(e => {
       throw(e);
-    });
+    })
+    .finally(() => {
+      dispatch(endSpinner());
+    })
   };
 }
 
@@ -38,18 +44,25 @@ export function signUp(email, password) {
   return dispatch => {
     let status = null;
 
+    dispatch(startSpinner());
+
     return fetchPlus(`${SERVER_DOMAIN}/users`, {
       method: 'POST',
       body: JSON.stringify({ user: { email, password } })
     })
     .catch(e => {
       throw(e)
-    });
+    })
+    .finally(() => {
+      dispatch(endSpinner());
+    })
   };
 }
 
 export function signOut() {
   return dispatch => {
+    dispatch(startSpinner());
+
     return fetchPlus(`${SERVER_DOMAIN}/sessions`, {
       method: 'DELETE'
     })
@@ -58,12 +71,17 @@ export function signOut() {
       })
       .catch(e => {
         throw(e)
-      });
+      })
+      .finally(() => {
+        dispatch(endSpinner());
+      })
   };
 }
 
 export function authenticateUser() {
   return dispatch => {
+    dispatch(startSpinner());
+
     return fetchPlus(`${SERVER_DOMAIN}/sessions`)
       .then(res => {
         if (res.status === 200) {
@@ -84,6 +102,9 @@ export function authenticateUser() {
       })
       .catch(e => {
         throw(e);
-      });
+      })
+      .finally(() => {
+        dispatch(endSpinner());
+      })
   };
 }

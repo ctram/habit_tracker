@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import fetchPlus from '../../../helpers/fetch-plus';
+import { fetchHabits } from '../actions/habitsActionCreators';
+import { authenticateUser } from '../actions/usersActionCreators';
+
 import MissingEntityPage from './MissingEntityPage';
 import SignInPage from './SignInPage';
 import NavBarContainer from '../containers/NavBarContainer';
@@ -8,9 +12,7 @@ import HabitsIndexPage from './HabitsIndexPage';
 import AlertBar from '../components/AlertBar';
 import AddHabitPageContainer from '../containers/AddHabitPageContainer';
 import HabitPage from '../pages/HabitPage';
-import fetchPlus from '../../../helpers/fetch-plus';
-import { fetchHabits } from '../actions/habitsActionCreators';
-import { authenticateUser } from '../actions/usersActionCreators';
+import Spinner from '../components/Spinner';
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
@@ -38,7 +40,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { alert, currentUser, habits } = this.props;
+    const { alert, currentUser, habits, showSpinner } = this.props;
 
     const habitRoutes = habits.map((habit, idx) => {
         return <Route path={`/habits/${habit.id}`} render={() => (<HabitPage habit={habit} currentUser={currentUser} />)} key={idx} />;
@@ -46,6 +48,9 @@ export default class App extends React.Component {
 
     return (
         <Router>
+          { showSpinner
+              && <Spinner />
+          }
           <NavBarContainer />
           {
             alert && <AlertBar alertType={alert.alertType} message={alert.message} />
