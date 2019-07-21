@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   protect_from_forgery except: :create
 
+  skip_before_action :verify_user_logged_in
+
   def create
     puts 'just testings log'
     email, password = params[:user].values_at :email, :password
