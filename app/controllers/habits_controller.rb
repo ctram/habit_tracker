@@ -2,7 +2,7 @@ class HabitsController < ApplicationController
   before_action :verify_user_logged_in
 
   def index
-    render(status: 200, json: { habits: current_user.habits })
+    render(status: 200, json: { habits: habits_with_streak_num })
   end
 
   def create
@@ -39,5 +39,12 @@ class HabitsController < ApplicationController
 
   def habit_params
     params.require(:habit).permit(:title, :date, :completed, :id)
+  end
+
+  # TODO: we can expose this using entity gem
+  def habits_with_streak_num
+    current_user.habits.map do |habit|
+      habit.as_json.merge(num_days_of_longest_streak: habit.num_days_of_longest_streak)
+    end
   end
 end
