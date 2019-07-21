@@ -32,3 +32,16 @@
 .font-size-double {
   font-size: 2rem;
 }
+
+.z-level-1 {
+  z-index: 1080;
+}
+
+.z-level-2 {
+  z-index: 1090;
+}
+
+.semi-transparent-backdrop {
+  background: black;
+  opacity: .50;
+}
