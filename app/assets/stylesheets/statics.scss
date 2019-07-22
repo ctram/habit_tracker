@@ -44,10 +44,18 @@
 
 html {
 
-  @media (max-width: 992px) {
-    font-size: 2rem;
+  @media
+  (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi) {
+    background: red;
+      /* Retina-specific stuff here */
   }
 
-  @media (max-width: 1000px) {
-  }
+  // @media (max-width: 3120dppx) {
+  //   font-size: 2rem;
+  //   background: red;
+  // }
+  //
+  // @media (max-width: 1000px) {
+  // }
 }
