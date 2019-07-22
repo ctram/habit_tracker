@@ -43,7 +43,9 @@ class HabitsController < ApplicationController
 
   # TODO: we can expose this using entity gem
   def habits_with_streak_num
-    current_user.habits.map do |habit|
+    current_user.habits.sort do |a,b|
+      a.title <=> b.title
+    end.map do |habit|
       habit.as_json.merge(num_days_of_longest_streak: habit.num_days_of_longest_streak)
     end
   end
