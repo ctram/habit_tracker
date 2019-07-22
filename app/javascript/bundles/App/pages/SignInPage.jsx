@@ -22,7 +22,7 @@ export default class SignIn extends React.Component {
             <h1 className="text-center">
               {headerTxt}
             </h1>
-            <div className="sign-form-container">
+            <div className="form-container">
                 <SignInForm type={type} />
             </div>
         </div>

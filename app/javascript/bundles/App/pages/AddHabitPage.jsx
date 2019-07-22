@@ -30,16 +30,18 @@ class AddHabitPage extends React.Component {
 
   render() {
     return <div className="d-flex flex-column align-items-center">
-      <h1>Add Habit</h1>
-      <form className="w-50" onSubmit={this.submit}>
-        <div className="form-group">
-        <label htmlFor="inputTitle">Title</label>
-        <input type="title" ref={this.inputTitle} className="form-control" id="inputTitle" placeholder="Enter habit title"/>
+        <div className="form-container">
+          <h1>Add Habit</h1>
+          <form onSubmit={this.submit}>
+            <div className="form-group">
+              <label htmlFor="inputTitle">Title</label>
+              <input type="title" ref={this.inputTitle} className="form-control" id="inputTitle" placeholder="Enter habit title"/>
+            </div>
+            <button type="button" className="btn btn-primary" onClick={this.submit}>
+              Add Habit
+            </button>
+          </form>
         </div>
-        <button type="button" className="btn btn-primary" onClick={this.submit}>
-          Add Habit
-        </button>
-      </form>
     </div>;
   }
 }
