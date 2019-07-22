@@ -34,12 +34,14 @@ class AddHabitPage extends React.Component {
       <form className="w-50" onSubmit={this.submit}>
         <div className="form-group">
         <label htmlFor="inputTitle">Title</label>
-        <input type="title" ref={this.inputTitle} className="form-control" id="inputTitle" placeholder="Enter title"/>
+        <input type="title" ref={this.inputTitle} className="form-control" id="inputTitle" placeholder="Enter habit title"/>
         </div>
-        <button type="button" className="btn btn-primary" onClick={this.submit}>Add Habit</button>
+        <button type="button" className="btn btn-primary" onClick={this.submit}>
+          Add Habit
+        </button>
       </form>
     </div>;
   }
 }
 
-export default connect(null, null)(AddHabitPage);
+export default connect()(AddHabitPage);
