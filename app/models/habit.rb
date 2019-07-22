@@ -6,10 +6,12 @@ class Habit < ApplicationRecord
   belongs_to :user
 
   def num_days_current_streak
+    return 0 if dates.empty?
+
     sorted_dates = dates.keys.sort
     cur_date = to_date_obj(sorted_dates.pop)
 
-    return 0 if dates.empty? || cur_date != Date.today
+    return 0 if cur_date != Date.today
 
     cur_streak = 1
 
