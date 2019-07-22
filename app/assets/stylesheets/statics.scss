@@ -1,3 +1,44 @@
 // Place all the styles related to the statics controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+ .force-pointer {
+   cursor: pointer;
+ }
+
+.day {
+  height: 3em;
+  width: 3em;
+  border-radius: 50%;
+  line-height: 3em;
+}
+
+.day-completed {
+  background-color: yellow;
+}
+
+.font-size-double {
+  font-size: 2rem;
+}
+
+.z-level-1 {
+  z-index: 1080;
+}
+
+.z-level-2 {
+  z-index: 1090;
+}
+
+.semi-transparent-backdrop {
+  background: black;
+  opacity: .50;
+}
+
+
+.sign-form-container {
+  width: 400px;
+
+  @media (max-width: 1000px) {
+    width: 75%;
+  }
+}
