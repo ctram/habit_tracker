@@ -11,7 +11,6 @@ import { fetchHabits, deleteHabit } from '../actions/habitsActionCreators';
 import { clearCurrentAlert } from '../actions/alertsActionCreators';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import LinkPlus from '../components/LinkPlus'
 
 class Habit extends React.Component {
   constructor(props) {

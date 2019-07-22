@@ -6,7 +6,6 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { connect } from 'react-redux';
 import DaysInWeek from '../components/DaysInWeek';
 import priorDaysHelper from '../../../helpers/days-in-week';
-import LinkPlus from '../components/LinkPlus';
 import { clearCurrentAlert } from '../actions/alertsActionCreators';
 
 class HabitsIndexPage extends React.Component {
