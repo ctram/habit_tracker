@@ -5,7 +5,30 @@ class Habit < ApplicationRecord
 
   belongs_to :user
 
-  def num_days_of_longest_streak
+  def num_days_current_streak
+    sorted_dates = dates.keys.sort
+    cur_date = to_date_obj(sorted_dates.pop)
+
+    return 0 if dates.empty? || cur_date != Date.today
+
+    cur_streak = 1
+
+    while !sorted_dates.empty?
+      prev_date = to_date_obj(sorted_dates.pop)
+
+      if prev_date == cur_date - 1
+        cur_streak += 1
+      else
+        break
+      end
+
+      cur_date = prev_date
+    end
+
+    cur_streak
+  end
+
+  def num_days_longest_streak
     return 0 if dates.empty?
 
     return 1 if dates.length == 1

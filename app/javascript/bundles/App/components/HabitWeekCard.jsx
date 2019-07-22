@@ -34,7 +34,7 @@ class HabitWeekCard extends React.Component {
   }
 
   render() {
-    let { habit: { title, dates, id, num_days_of_longest_streak }, priorDays } = this.props;
+    let { habit: { title, dates, id, num_days_longest_streak, num_days_current_streak }, priorDays } = this.props;
 
     dates = Object.keys(dates);
 
@@ -46,11 +46,24 @@ class HabitWeekCard extends React.Component {
         <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
           <h5>{title}</h5>
         </Link>
-        <div>
-          {`Longest running streak: ${num_days_of_longest_streak} days`}
+        <div className="d-flex justify-content-between">
+          <span>
+            Longest running streak:
+          </span>
+          <span>
+            {`${num_days_longest_streak} days`}
+          </span>
+        </div>
+        <div className="d-flex justify-content-between">
+          <span>
+            Current streak:
+          </span>
+          <span>
+            {`${num_days_current_streak} days`}
+          </span>
         </div>
       </div>
-    )
+    );
 
     for (let i = 0; i < 6; i++) {
       let isCompleted = dates.indexOf(priorDayNums[i]) > -1;
