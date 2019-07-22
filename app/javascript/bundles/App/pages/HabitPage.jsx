@@ -1,20 +1,29 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import Calendar from '../components/Calendar';
+
 import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as alertsActions from '../actions/alertsActionCreators';
 import { fetchHabits, deleteHabit } from '../actions/habitsActionCreators';
-import Calendar from '../components/Calendar';
+import { clearCurrentAlert } from '../actions/alertsActionCreators';
+
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import LinkPlus from '../components/LinkPlus'
 
 class Habit extends React.Component {
   constructor(props) {
     super(props);
 
     this.delete = this.delete.bind(this);
+    this.clearCurrentAlert = this.clearCurrentAlert.bind(this);
   }
 
   delete() {
+    this.clearCurrentAlert();
+
     const { currentUser, habit, fetchHabits, dispatch } = this.props;
 
     const result = window.confirm('Are you sure you want to delete this habit? This cannot be undone.');
@@ -32,6 +41,10 @@ class Habit extends React.Component {
       });
   }
 
+  clearCurrentAlert() {
+    this.props.dispatch(clearCurrentAlert());
+  }
+
   render() {
     let { habit } = this.props;
     let { title, dates } = habit;
@@ -42,10 +55,14 @@ class Habit extends React.Component {
       </h1>
 
       <div className="my-5 p-5">
-        <button submit="button" className="btn btn-danger" onClick={this.delete}>
+        <div className="d-flex justify-content-between">
+          <Link className="btn btn-info" to="/" onClick={this.clearCurrentAlert}>
+          Back
+          </Link>
+          <button submit="button" className="btn btn-danger" onClick={this.delete}>
           Delete
-        </button>
-
+          </button>
+        </div>
         <div className="card my-5">
           <div className="card-body">
             <Calendar completedDates={dates} habit={habit} />

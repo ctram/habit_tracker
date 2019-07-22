@@ -5,7 +5,6 @@ import { setCurrentUser, signOut } from '../actions/usersActionCreators';
 import { setCurrentAlert, clearCurrentAlert } from '../actions/alertsActionCreators';
 import fetchPlus from '../../../helpers/fetch-plus';
 
-
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class NavBar extends React.Component {
@@ -30,9 +29,7 @@ class NavBar extends React.Component {
   }
 
   resetAlertBar() {
-    if (this.props.currentAlert) {
-      this.props.dispatch(clearCurrentAlert());
-    }
+    this.props.dispatch(clearCurrentAlert());
   }
 
   render() {

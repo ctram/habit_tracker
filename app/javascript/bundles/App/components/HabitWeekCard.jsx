@@ -5,16 +5,24 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { updateHabitCompletedForDate } from '../actions/habitsActionCreators';
+import { clearCurrentAlert } from '../actions/alertsActionCreators';
 
 class HabitWeekCard extends React.Component {
   constructor(props) {
     super(props);
 
     this.onClick = this.onClick.bind(this);
+    this.clearCurrentAlert = this.clearCurrentAlert.bind(this);
+  }
+
+  clearCurrentAlert() {
+    this.props.dispatch(clearCurrentAlert());
   }
 
   onClick(e) {
     e.preventDefault();
+
+    this.clearCurrentAlert();
 
     let { habit, currentUser, dispatch } = this.props;
     let isCompleted = e.target.getAttribute('data-is-completed') === 'true';
@@ -35,7 +43,7 @@ class HabitWeekCard extends React.Component {
 
     inner.push(
       <div className="col-5" key="title">
-        <Link to={`/habits/${id}`}>
+        <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
           <h5>{title}</h5>
         </Link>
         <div>

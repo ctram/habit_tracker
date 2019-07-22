@@ -82,9 +82,9 @@ export function updateHabitCompletedForDate(habit, isCompleted, date, currentUse
 
   let status;
 
-  dispatch(startSpinner());
-
   return dispatch => {
+    dispatch(startSpinner());
+
     return fetchPlus(`${SERVER_DOMAIN}/users/${user_id}/habits/${id}/update_habit_completed_for_date`, {
       method: 'POST',
       body: JSON.stringify({ habit: { id, date, completed: isCompleted }})
@@ -114,9 +114,9 @@ export function updateHabitCompletedForDate(habit, isCompleted, date, currentUse
 export function deleteHabit(currentUser, habit) {
   let status;
 
-  dispatch(startSpinner());
-
   return dispatch => {
+    dispatch(startSpinner());
+
     return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits/${habit.id}`, {
       method: 'DELETE'
     })
@@ -136,7 +136,4 @@ export function deleteHabit(currentUser, habit) {
         dispatch(endSpinner());
       })
   };
-
-
-
 }

@@ -6,10 +6,17 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { connect } from 'react-redux';
 import DaysInWeek from '../components/DaysInWeek';
 import priorDaysHelper from '../../../helpers/days-in-week';
+import LinkPlus from '../components/LinkPlus';
+import { clearCurrentAlert } from '../actions/alertsActionCreators';
 
 class HabitsIndexPage extends React.Component {
   constructor(props) {
     super(props);
+    this.clearCurrentAlert = this.clearCurrentAlert.bind(this);
+  }
+
+  clearCurrentAlert() {
+    this.props.dispatch(clearCurrentAlert());
   }
 
   render() {
@@ -33,7 +40,10 @@ class HabitsIndexPage extends React.Component {
 
     return (
         <div className="d-flex flex-column align-items-center">
-          <Link className="btn btn-primary" to="/habits/new">
+          <Link
+            className="btn btn-primary"
+            to="/habits/new"
+            onClick={this.clearCurrentAlert}>
             Add Habit
           </Link>
 
