@@ -26,7 +26,7 @@ class HabitWeekCard extends React.Component {
   }
 
   render() {
-    let { habit: { title, dates, id }, priorDays } = this.props;
+    let { habit: { title, dates, id, num_days_of_longest_streak }, priorDays } = this.props;
 
     dates = Object.keys(dates);
 
@@ -38,6 +38,9 @@ class HabitWeekCard extends React.Component {
         <Link to={`/habits/${id}`}>
           <h5>{title}</h5>
         </Link>
+        <div>
+          {`Longest running streak: ${num_days_of_longest_streak} days`}
+        </div>
       </div>
     )
 
@@ -48,7 +51,7 @@ class HabitWeekCard extends React.Component {
       elementClass += isCompleted ? " fa-check-square" : " fa-square";
 
       inner.push(
-        <div className="col-1 d-flex flex-column" key={i}>
+        <div className="col-1 d-flex flex-column justify-content-center" key={i}>
           <i
             onClick={this.onClick}
             data-is-completed={isCompleted}
