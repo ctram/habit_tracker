@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { updateHabitCompletedForDate } from '../actions/habitsActionCreators';
 import { clearCurrentAlert } from '../actions/alertsActionCreators';
+import DaysInWeek from './DaysInWeek';
 
 class HabitWeekCard extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class HabitWeekCard extends React.Component {
 
     this.clearCurrentAlert();
 
-    let { habit, currentUser, dispatch } = this.props;
+    let { habit, currentUser, dispatch, priorDays } = this.props;
     let isCompleted = e.target.getAttribute('data-is-completed') === 'true';
     isCompleted = !isCompleted // now update to the opposite state.
     const idx = Number(e.target.getAttribute('data-idx'));
@@ -39,56 +40,15 @@ class HabitWeekCard extends React.Component {
     dates = Object.keys(dates);
 
     let priorDayNums = priorDays.map(day => day.fullDate);
-    let inner = [];
+    let daysCheckboxes;
 
-    inner.push(
-      <div className="col-5" key="title">
+    return (
+      <div className="card py-3 habit-week-card">
         <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
           <h5>{title}</h5>
         </Link>
-        <div className="d-flex justify-content-between">
-          <span>
-            Longest running streak:
-          </span>
-          <span>
-            {`${num_days_longest_streak} days`}
-          </span>
-        </div>
-        <div className="d-flex justify-content-between">
-          <span>
-            Current streak:
-          </span>
-          <span>
-            {`${num_days_current_streak} days`}
-          </span>
-        </div>
-      </div>
-    );
-
-    for (let i = 0; i < 6; i++) {
-      let isCompleted = dates.indexOf(priorDayNums[i]) > -1;
-      let elementClass = "far force-pointer font-size-double";
-
-      elementClass += isCompleted ? " fa-check-square" : " fa-square";
-
-      inner.push(
-        <div className="col-1 d-flex flex-column justify-content-center" key={i}>
-          <i
-            onClick={this.onClick}
-            data-is-completed={isCompleted}
-            data-idx={i}
-            className={elementClass} />
-        </div>
-      );
-    }
-
-    return (
-      <div className="card py-3">
-        <div className="container">
-          <div className="row">
-            {inner}
-          </div>
-        </div>
+        <DaysInWeek numDaysToShow={2} priorDays={priorDays} dates={dates} habit={this.props.habit} />
+        {daysCheckboxes}
       </div>
     );
   }

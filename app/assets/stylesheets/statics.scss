@@ -7,10 +7,9 @@
  }
 
 .day {
-  height: 3em;
-  width: 3em;
+  height: 4em;
+  width: 4em;
   border-radius: 50%;
-  line-height: 3em;
 }
 
 .day-completed {
@@ -44,12 +43,13 @@
 
 html {
 
-  @media
-  (-webkit-min-device-pixel-ratio: 2),
-  (min-resolution: 192dpi) {
-    background: red;
-      /* Retina-specific stuff here */
-  }
+  // font-size: 10px;
+  // @media
+  // (-webkit-min-device-pixel-ratio: 2),
+  // (min-resolution: 192dpi) {
+  //   background: red;
+  //     /* Retina-specific stuff here */
+  // }
 
   // @media (max-width: 3120dppx) {
   //   font-size: 2rem;
