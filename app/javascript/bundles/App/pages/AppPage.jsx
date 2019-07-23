@@ -52,7 +52,7 @@ export default class App extends React.Component {
               && <Spinner />
           }
           <NavBarContainer />
-          <div>
+          <div className="py-5">
             {
               alert && <div className="my-5">
                 <AlertBar alertType={alert.alertType} message={alert.message} />

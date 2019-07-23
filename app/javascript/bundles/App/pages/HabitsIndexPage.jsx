@@ -53,7 +53,7 @@ class HabitsIndexPage extends React.Component {
               </div>
           }
 
-          <div className="my-5 text-center habits-index-page px-1 w-100">
+          <div className="my-5 text-center habits-index-page w-100">
             {inner}
           </div>
         </div>
