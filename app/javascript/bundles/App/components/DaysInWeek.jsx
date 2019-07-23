@@ -66,7 +66,7 @@ class DaysInWeek extends React.Component {
       inner.push(
         <div className="col" key={i}>
           <div className="d-flex justify-content-center">
-            <div className={`day force-pointer d-flex flex-column justify-content-center ${dayNameClass} text-center`} onClick={this.onClick} data-date={fullDate} data-is-completed={dayCompleted}>
+            <div className={`circle force-pointer d-flex flex-column justify-content-center ${dayNameClass} text-center`} onClick={this.onClick} data-date={fullDate} data-is-completed={dayCompleted}>
               <span className="font-weight-bold">
                 {dayName}
               </span>

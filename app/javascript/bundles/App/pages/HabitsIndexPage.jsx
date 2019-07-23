@@ -27,7 +27,7 @@ class HabitsIndexPage extends React.Component {
 
     if (habits.length > 0) {
       inner = habits.map((habit, idx) => {
-        return <div className="m-2" key={idx}>
+        return <div className="m-2 my-5" key={idx}>
           <HabitWeekCard
             habit={habit}
             priorDays={priorDays}

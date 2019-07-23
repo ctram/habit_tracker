@@ -5,10 +5,14 @@
    cursor: pointer;
  }
 
-.day {
+.circle {
   height: 4em;
   width: 4em;
   border-radius: 50%;
+}
+
+.day-in-calendar {
+  line-height: 4em;
 }
 
 .day-completed {

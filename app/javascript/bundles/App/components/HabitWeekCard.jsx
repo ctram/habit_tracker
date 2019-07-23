@@ -80,7 +80,7 @@ class HabitWeekCard extends React.Component {
     const titleDom = <h5>{title}</h5>;
 
     return (
-      <div className="card py-3 habit-week-card">
+      <div className="card py-5 habit-week-card">
         <div className="mb-3">
           {
             canGoToCalendar
@@ -90,11 +90,15 @@ class HabitWeekCard extends React.Component {
             || titleDom
           }
         </div>
-        <div className="mb-3">
-          Longest streak: {num_days_longest_streak} days
-        </div>
-        <div className="mb-3">
-          Current streak: {num_days_current_streak} days
+        <div className="container mb-3">
+          <div className="row">
+            <div className="col">
+              Longest streak: {num_days_longest_streak} days
+            </div>
+            <div className="col">
+              Current streak: {num_days_current_streak} days
+            </div>
+          </div>
         </div>
         <DaysInWeek numDaysToShow={numDaysToShow} habit={this.props.habit} />
       </div>

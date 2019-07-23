@@ -46,20 +46,17 @@ export default class App extends React.Component {
         return <Route path={`/habits/${habit.id}`} render={() => (<HabitPage habit={habit} currentUser={currentUser} />)} key={idx} />;
     });
 
-    const isHighDensity = matchMedia('(-webkit-min-device-pixel-ratio: 2)').matches;
-
-    let cssClass = 'py-5';
-    cssClass += isHighDensity ? '' : ' px-5';
-
     return (
         <Router>
           { showSpinner
               && <Spinner />
           }
           <NavBarContainer />
-          <div className={cssClass}>
+          <div>
             {
-              alert && <AlertBar alertType={alert.alertType} message={alert.message} />
+              alert && <div className="my-5">
+                <AlertBar alertType={alert.alertType} message={alert.message} />
+              </div>
             }
             <Switch>
                 <Route path='/sign-in' component={SignInPage} />
