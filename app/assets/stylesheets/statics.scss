@@ -1,7 +1,6 @@
 // Place all the styles related to the statics controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
  .force-pointer {
    cursor: pointer;
  }
@@ -14,10 +13,6 @@
 
 .day-completed {
   background-color: yellow;
-}
-
-.font-size-double {
-  font-size: 2rem;
 }
 
 .z-level-1 {
@@ -33,34 +28,7 @@
   opacity: .50;
 }
 
-.form-container {
-  width: 400px;
-
-  @media (max-width: 1000px) {
-    width: 75%;
-  }
-}
-
 .disabled {
   opacity: .3;
   cursor: default;
-}
-
-html {
-
-  // font-size: 10px;
-  // @media
-  // (-webkit-min-device-pixel-ratio: 2),
-  // (min-resolution: 192dpi) {
-  //   background: red;
-  //     /* Retina-specific stuff here */
-  // }
-
-  // @media (max-width: 3120dppx) {
-  //   font-size: 2rem;
-  //   background: red;
-  // }
-  //
-  // @media (max-width: 1000px) {
-  // }
 }

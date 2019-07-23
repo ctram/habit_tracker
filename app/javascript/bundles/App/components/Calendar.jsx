@@ -60,7 +60,6 @@ class Week extends React.Component {
       let fullDate = dayMoment.format('YYYY-MM-DD')
       let dayNum = dayMoment.date();
       let fontClass = '';
-      let dayClass = 'force-pointer day';
       let isCompleted = completedDates[fullDate];
 
       if (dayMoment.isBefore(monthMoment) || dayMoment.isAfter(lastDayOfMonthMoment)) {
@@ -69,14 +68,12 @@ class Week extends React.Component {
         fontClass = 'font-weight-bold';
       }
 
-      dayClass += isCompleted ? ' day-completed' : '';
+      let dayClassMod = isCompleted ? ' day-completed' : '';
 
       days.push(
         <div className={`col ${fontClass}`} key={i}>
-          <div className="d-flex justify-content-center">
-            <div className={dayClass} data-date={fullDate} data-is-completed={isCompleted} onClick={this.onClick}>
-              {dayNum}
-            </div>
+          <div className={`force-pointer day d-flex justify-content-center align-items-center ${dayClassMod}`} data-date={fullDate} data-is-completed={isCompleted} onClick={this.onClick}>
+            {dayNum}
           </div>
         </div>
       );
@@ -167,8 +164,6 @@ class Calendar extends React.Component {
   render() {
       const { month, year } = this.state;
       const { completedDates, habit } = this.props;
-
-
 
       return (
           <div className="r-calendar text-center">

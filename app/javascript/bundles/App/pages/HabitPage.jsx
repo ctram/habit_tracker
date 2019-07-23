@@ -58,10 +58,10 @@ class Habit extends React.Component {
       <div className="my-5 p-5">
         <div className="d-flex justify-content-between">
           <Link className="btn btn-info" to="/" onClick={this.clearCurrentAlert}>
-          Back
+            Back
           </Link>
           <button submit="button" className="btn btn-danger" onClick={this.delete}>
-          Delete
+            Delete
           </button>
         </div>
         <div className="card my-5">

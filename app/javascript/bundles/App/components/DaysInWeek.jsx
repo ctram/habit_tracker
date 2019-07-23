@@ -24,12 +24,12 @@ class DaysInWeek extends React.Component {
   }
 
   prevDays() {
-    this.setState({ currentDate: this.state.currentDate.subtract(2, 'days') });
+    this.setState({ currentDate: this.state.currentDate.subtract(this.props.numDaysToShow, 'days') });
   }
 
   nextDays() {
     const { currentDate } = this.state;
-    this.setState({ currentDate: this.state.currentDate.add(2, 'days') });
+    this.setState({ currentDate: this.state.currentDate.add(this.props.numDaysToShow, 'days') });
   }
 
   onClick(e) {

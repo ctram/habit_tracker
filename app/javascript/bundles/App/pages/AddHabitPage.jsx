@@ -4,6 +4,9 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { setCurrentAlert } from '../actions/alertsActionCreators';
 import { addHabit } from '../actions/habitsActionCreators';
 import { connect } from 'react-redux';
+import { clearCurrentAlert } from '../actions/alertsActionCreators';
+
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class AddHabitPage extends React.Component {
   constructor(props) {
@@ -11,6 +14,7 @@ class AddHabitPage extends React.Component {
 
     this.inputTitle = React.createRef();
     this.submit = this.submit.bind(this);
+    this.clearCurrentAlert = this.clearCurrentAlert.bind(this);
   }
 
   submit(e) {
@@ -28,8 +32,18 @@ class AddHabitPage extends React.Component {
       });
   }
 
+  clearCurrentAlert() {
+    this.props.dispatch(clearCurrentAlert());
+  }
+
   render() {
-    return <div className="d-flex flex-column align-items-center">
+    return <div className="d-flex flex-column align-items-center px-5">
+      <div className="w-100">
+        <div className="d-flex justify-content-start mb-3">
+          <Link className="btn btn-info" to="/" onClick={this.clearCurrentAlert}>
+            Back
+          </Link>
+        </div>
         <div className="form-container">
           <h1>Add Habit</h1>
           <form onSubmit={this.submit}>
@@ -42,6 +56,7 @@ class AddHabitPage extends React.Component {
             </button>
           </form>
         </div>
+      </div>
     </div>;
   }
 }

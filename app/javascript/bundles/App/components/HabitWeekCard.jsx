@@ -12,8 +12,46 @@ class HabitWeekCard extends React.Component {
   constructor(props) {
     super(props);
 
+    const { numDaysToShow, canGoToCalendar } = this.calculateNumDaysToShow();
+
+    this.state = { numDaysToShow, canGoToCalendar };
+
     this.onClick = this.onClick.bind(this);
     this.clearCurrentAlert = this.clearCurrentAlert.bind(this);
+    this.onChangeMedia = this.onChangeMedia.bind(this);
+  }
+
+  componentDidMount() {
+    this.matchMedia = matchMedia('(max-width: 600px)');
+    this.matchMedia.addListener(this.onChangeMedia);
+  }
+
+
+  componentWillUnmount() {
+    this.matchMedia.removeListener(this.onChangeMedia);
+    console.log('unmount called');
+  }
+
+  onChangeMedia() {
+    console.log('triggered');
+
+    const { numDaysToShow, canGoToCalendar } = this.calculateNumDaysToShow();
+
+    this.setState({ numDaysToShow, canGoToCalendar });
+  }
+
+  calculateNumDaysToShow() {
+    if (matchMedia('(max-width: 320px)').matches) {
+      return { numDaysToShow: 2, canGoToCalendar: false };
+    } else if (matchMedia('(max-width: 414px)').matches) {
+      return { numDaysToShow: 3, canGoToCalendar: false };
+    } else if (matchMedia('(max-width: 640px)').matches) {
+      return { numDaysToShow: 4, canGoToCalendar: false };
+    } else if (matchMedia('(max-width: 1024px)').matches) {
+      return { numDaysToShow: 6, canGoToCalendar: true };
+    } else {
+      return{ numDaysToShow: 7, canGoToCalendar: true };
+    }
   }
 
   clearCurrentAlert() {
@@ -37,25 +75,20 @@ class HabitWeekCard extends React.Component {
   render() {
     let { habit: { title, dates, id, num_days_longest_streak, num_days_current_streak }, priorDays } = this.props;
 
-    dates = Object.keys(dates);
-
-    let priorDayNums = priorDays.map(day => day.fullDate);
-    let daysCheckboxes;
-
-    const isTooNarrow = matchMedia('(-webkit-min-device-pixel-ratio: 2) , (max-width: 320px)').matches;
+    let { numDaysToShow, canGoToCalendar } = this.state;
 
     const titleDom = <h5>{title}</h5>;
 
     return (
       <div className="card py-3 habit-week-card">
         {
-          (isTooNarrow && titleDom)
-            || <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
+          canGoToCalendar
+            && <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
               {titleDom}
             </Link>
+            || titleDom
         }
-        <DaysInWeek numDaysToShow={2} priorDays={priorDays} dates={dates} habit={this.props.habit} />
-        {daysCheckboxes}
+        <DaysInWeek numDaysToShow={numDaysToShow} habit={this.props.habit} />
       </div>
     );
   }
