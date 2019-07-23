@@ -12,6 +12,8 @@ import { clearCurrentAlert } from '../actions/alertsActionCreators';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
+import moment from 'moment';
+
 class Habit extends React.Component {
   constructor(props) {
     super(props);
@@ -49,7 +51,7 @@ class Habit extends React.Component {
     let { title, dates } = habit;
 
     return <div>
-      <h1>
+      <h1 className="text-center">
         {title}
       </h1>
 

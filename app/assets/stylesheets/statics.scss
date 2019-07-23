@@ -41,6 +41,11 @@
   }
 }
 
+.disabled {
+  opacity: .3;
+  cursor: default;
+}
+
 html {
 
   // font-size: 10px;

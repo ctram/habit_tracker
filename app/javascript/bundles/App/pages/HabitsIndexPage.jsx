@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import fetchPlus from '../../../helpers/fetch-plus';
 import { connect } from 'react-redux';
 import DaysInWeek from '../components/DaysInWeek';
-import priorDaysHelper from '../../../helpers/days-in-week';
+import priorDaysHelper from '../../../helpers/prior-days';
 import { clearCurrentAlert } from '../actions/alertsActionCreators';
 
 class HabitsIndexPage extends React.Component {

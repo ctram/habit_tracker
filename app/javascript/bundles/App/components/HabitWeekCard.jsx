@@ -42,11 +42,18 @@ class HabitWeekCard extends React.Component {
     let priorDayNums = priorDays.map(day => day.fullDate);
     let daysCheckboxes;
 
+    const isTooNarrow = matchMedia('(-webkit-min-device-pixel-ratio: 2) , (max-width: 320px)').matches;
+
+    const titleDom = <h5>{title}</h5>;
+
     return (
       <div className="card py-3 habit-week-card">
-        <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
-          <h5>{title}</h5>
-        </Link>
+        {
+          (isTooNarrow && titleDom)
+            || <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
+              {titleDom}
+            </Link>
+        }
         <DaysInWeek numDaysToShow={2} priorDays={priorDays} dates={dates} habit={this.props.habit} />
         {daysCheckboxes}
       </div>
