@@ -61,6 +61,7 @@ class Week extends React.Component {
       let dayNum = dayMoment.date();
       let fontClass = '';
       let isCompleted = completedDates[fullDate];
+      let isInFuture = dayMoment.isAfter(moment(), 'day');
 
       if (dayMoment.isBefore(monthMoment) || dayMoment.isAfter(lastDayOfMonthMoment)) {
         fontClass = 'font-weight-lighter font-italic';
@@ -69,10 +70,11 @@ class Week extends React.Component {
       }
 
       let dayClassMod = isCompleted ? ' day-completed' : '';
+      dayClassMod += isInFuture ? '' : ' force-pointer';
 
       days.push(
         <div className={`col ${fontClass}`} key={i}>
-          <div className={`force-pointer day d-flex justify-content-center align-items-center ${dayClassMod}`} data-date={fullDate} data-is-completed={isCompleted} onClick={this.onClick}>
+          <div className={`day d-flex justify-content-center align-items-center ${dayClassMod}`} data-date={fullDate} data-is-completed={isCompleted} onClick={isInFuture ? null: this.onClick}>
             {dayNum}
           </div>
         </div>

@@ -81,13 +81,21 @@ class HabitWeekCard extends React.Component {
 
     return (
       <div className="card py-3 habit-week-card">
-        {
-          canGoToCalendar
+        <div className="mb-3">
+          {
+            canGoToCalendar
             && <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
-              {titleDom}
+            {titleDom}
             </Link>
             || titleDom
-        }
+          }
+        </div>
+        <div className="mb-3">
+          Longest streak: {num_days_longest_streak} days
+        </div>
+        <div className="mb-3">
+          Current streak: {num_days_current_streak} days
+        </div>
         <DaysInWeek numDaysToShow={numDaysToShow} habit={this.props.habit} />
       </div>
     );
