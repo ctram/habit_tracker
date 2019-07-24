@@ -17,12 +17,18 @@ export default class SignIn extends React.Component {
     const headerTxt = this.props.type === 'sign-up' ? 'Sign Up' : 'Sign In'
     const type = this.props.type;
 
+    let cssClass = '';
+
+    if (matchMedia('(-webkit-min-device-pixel-ratio: 2) , (min-width: 640px)').matches) {
+      cssClass += ' w-75';
+    }
+
     return (
         <div className="d-flex flex-column align-items-center">
             <h1 className="text-center">
               {headerTxt}
             </h1>
-            <div className="form-container">
+            <div className={`form-container ${cssClass}`}>
                 <SignInForm type={type} />
             </div>
         </div>
