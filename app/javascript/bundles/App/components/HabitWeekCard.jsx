@@ -25,7 +25,6 @@ class HabitWeekCard extends React.Component {
     window.onresize = this.onChangeMedia;
   }
 
-
   componentWillUnmount() {
     window.onresize = null;
   }
@@ -85,13 +84,9 @@ class HabitWeekCard extends React.Component {
     return (
       <div className="card py-5 habit-week-card">
         <div className="mb-3">
-          {
-            canGoToCalendar
-            && <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
-            {titleDom}
-            </Link>
-            || titleDom
-          }
+          <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
+          {titleDom}
+          </Link>
         </div>
         <div className="container mb-3">
           <div className="row">

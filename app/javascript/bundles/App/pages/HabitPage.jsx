@@ -50,6 +50,8 @@ class Habit extends React.Component {
     let { habit } = this.props;
     let { title, dates } = habit;
 
+    const showCalendar = matchMedia(`(min-width: 834px)`).matches;
+
     return <div>
       <h1 className="text-center">
         {title}
@@ -64,11 +66,18 @@ class Habit extends React.Component {
             Delete
           </button>
         </div>
-        <div className="card my-5">
-          <div className="card-body">
-            <Calendar completedDates={dates} habit={habit} />
-          </div>
-        </div>
+        {
+          showCalendar
+            && <div className="card my-5">
+              <div className="card-body">
+                <Calendar completedDates={dates} habit={habit} />
+              </div>
+            </div>
+            || <div className="my-5">
+              Calendar not show at this resolution, please view this page on a desktop machine.
+            </div>
+        }
+
       </div>
     </div>;
   }
