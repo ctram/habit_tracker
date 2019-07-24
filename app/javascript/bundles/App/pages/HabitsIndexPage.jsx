@@ -37,6 +37,8 @@ class HabitsIndexPage extends React.Component {
       });
     }
 
+    let cssClass = matchMedia('(min-width: 1076px)').matches ? '' : 'w-100'
+
     return (
         <div className="d-flex flex-column align-items-center">
           <Link
@@ -45,7 +47,7 @@ class HabitsIndexPage extends React.Component {
             onClick={this.clearCurrentAlert}>
             Add Habit
           </Link>
-          <div className="my-3 text-center habits-index-page w-100">
+          <div className={`my-3 text-center habits-index-page ${cssClass}`}>
             {inner}
           </div>
         </div>

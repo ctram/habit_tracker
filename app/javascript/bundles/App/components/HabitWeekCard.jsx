@@ -43,7 +43,7 @@ class HabitWeekCard extends React.Component {
     let res;
     let numDaysToShow;
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 20; i++) {
       numDaysToShow = i + 2;
       res = { numDaysToShow, canGoToCalendar:  numDaysToShow > 3 };
 
