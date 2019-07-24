@@ -30,8 +30,6 @@ class HabitWeekCard extends React.Component {
   }
 
   onChangeMedia() {
-    console.log('triggered');
-
     const { numDaysToShow, canGoToCalendar } = this.calculateNumDaysToShow();
 
     this.setState({ numDaysToShow, canGoToCalendar });
@@ -75,7 +73,7 @@ class HabitWeekCard extends React.Component {
   }
 
   render() {
-    let { habit: { title, dates, id, num_days_longest_streak, num_days_current_streak }, priorDays } = this.props;
+    let { habit: { title, dates, id, num_days_longest_streak, num_days_current_streak } } = this.props;
 
     let { numDaysToShow, canGoToCalendar } = this.state;
 

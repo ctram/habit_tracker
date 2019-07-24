@@ -29,10 +29,7 @@ class HabitsIndexPage extends React.Component {
       inner = habits.map((habit, idx) => {
         return <div className="m-2 my-5" key={idx}>
           <HabitWeekCard
-            habit={habit}
-            priorDays={priorDays}
-            fetchHabits={this.props.fetchHabits}
-            currentUser={currentUser} />
+            habit={habit} />
         </div>;
       });
     }
