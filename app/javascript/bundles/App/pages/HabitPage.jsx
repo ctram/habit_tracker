@@ -18,8 +18,27 @@ class Habit extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = { shouldShowCalendar: this.shouldShowCalendar() };
+
     this.delete = this.delete.bind(this);
     this.clearCurrentAlert = this.clearCurrentAlert.bind(this);
+    this.onChangeMedia = this.onChangeMedia.bind(this);
+  }
+
+  componentDidMount() {
+    window.onresize = this.onChangeMedia;
+  }
+
+  componentWillUnmount() {
+    window.onresize = null;
+  }
+
+  onChangeMedia() {
+    this.setState({ shouldShowCalendar: this.shouldShowCalendar() });
+  }
+
+  shouldShowCalendar() {
+    return matchMedia('(min-width: 834px)').matches;
   }
 
   delete() {
@@ -48,9 +67,8 @@ class Habit extends React.Component {
 
   render() {
     let { habit } = this.props;
+    let { shouldShowCalendar } = this.state;
     let { title, dates } = habit;
-
-    const showCalendar = matchMedia(`(min-width: 834px)`).matches;
 
     return <div>
       <h1 className="text-center">
@@ -66,18 +84,17 @@ class Habit extends React.Component {
             Delete
           </button>
         </div>
-        {
-          showCalendar
-            && <div className="card my-5">
-              <div className="card-body">
-                <Calendar completedDates={dates} habit={habit} />
+        <div className="my-5">
+          {
+            shouldShowCalendar
+              && <div className="card">
+                <div className="card-body">
+                  <Calendar completedDates={dates} habit={habit} />
+                </div>
               </div>
-            </div>
-            || <div className="my-5">
-              Calendar not show at this resolution, please view this page on a desktop machine.
-            </div>
-        }
-
+              || "Calendar not show at this resolution, please view this page on a desktop machine."
+          }
+        </div>
       </div>
     </div>;
   }
