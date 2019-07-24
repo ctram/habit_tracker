@@ -17,8 +17,8 @@ class AlertBar extends React.Component {
     }
 
     return (
-      <div className="d-flex justify-content-center">
-        <div className={`alert alert-${alertType} w-50 text-center`} role="alert">
+      <div className="d-flex justify-content-center p-3">
+        <div className={`alert alert-${alertType} text-center`} role="alert">
         {message}
         </div>
       </div>
