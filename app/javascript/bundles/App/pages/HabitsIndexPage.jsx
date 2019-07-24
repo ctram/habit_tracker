@@ -45,15 +45,7 @@ class HabitsIndexPage extends React.Component {
             onClick={this.clearCurrentAlert}>
             Add Habit
           </Link>
-
-          {
-            false && habits.length > 0
-              && <div className="mt-5 px-1 w-100">
-                <DaysInWeek priorDays={priorDays} />
-              </div>
-          }
-
-          <div className="my-5 text-center habits-index-page w-100">
+          <div className="my-3 text-center habits-index-page w-100">
             {inner}
           </div>
         </div>

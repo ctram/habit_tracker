@@ -44,7 +44,7 @@ class AddHabitPage extends React.Component {
             Back
           </Link>
         </div>
-        <div className="form-container">
+        <div className="form-container my-5">
           <h1>Add Habit</h1>
           <form onSubmit={this.submit}>
             <div className="form-group">

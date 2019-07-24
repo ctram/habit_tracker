@@ -22,14 +22,12 @@ class HabitWeekCard extends React.Component {
   }
 
   componentDidMount() {
-    this.matchMedia = matchMedia('(max-width: 600px)');
-    this.matchMedia.addListener(this.onChangeMedia);
+    window.onresize = this.onChangeMedia;
   }
 
 
   componentWillUnmount() {
-    this.matchMedia.removeListener(this.onChangeMedia);
-    console.log('unmount called');
+    window.onresize = null;
   }
 
   onChangeMedia() {
@@ -41,17 +39,22 @@ class HabitWeekCard extends React.Component {
   }
 
   calculateNumDaysToShow() {
-    if (matchMedia('(max-width: 320px)').matches) {
-      return { numDaysToShow: 2, canGoToCalendar: false };
-    } else if (matchMedia('(max-width: 414px)').matches) {
-      return { numDaysToShow: 3, canGoToCalendar: false };
-    } else if (matchMedia('(max-width: 640px)').matches) {
-      return { numDaysToShow: 4, canGoToCalendar: false };
-    } else if (matchMedia('(max-width: 1024px)').matches) {
-      return { numDaysToShow: 6, canGoToCalendar: true };
-    } else {
-      return{ numDaysToShow: 7, canGoToCalendar: true };
+    let px = 414;
+    let res;
+    let numDaysToShow;
+
+    for (let i = 0; i < 7; i++) {
+      numDaysToShow = i + 2;
+      res = { numDaysToShow, canGoToCalendar:  numDaysToShow > 3 };
+
+      if (matchMedia(`(max-width: ${String(px)}px)`).matches) {
+        break;
+      }
+
+      px += 150;
     }
+
+    return res;
   }
 
   clearCurrentAlert() {

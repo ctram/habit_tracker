@@ -52,38 +52,6 @@ export default class App extends React.Component {
               && <Spinner />
           }
           <NavBarContainer />
-          {
-            matchMedia('(-webkit-min-device-pixel-ratio: 1)').matches && <div>
-              I am at least 1dppx
-            </div>
-          }
-          {
-            matchMedia('(-webkit-min-device-pixel-ratio: 2)').matches && <div>
-              I am at least 2dppx
-            </div>
-          }
-          {
-            matchMedia('(-webkit-min-device-pixel-ratio: 3)').matches && <div>
-              I am at least 3dppx
-            </div>
-          }
-          {
-            matchMedia('(min-width: 320px)').matches && <div>
-              I am at least 320px
-            </div>
-          }
-          {
-            matchMedia('(min-width: 1020px)').matches && <div>
-              I am at least 1020px
-            </div>
-          }
-          {
-            matchMedia('(min-width: 1366px)').matches && <div>
-              I am at least 1366px
-            </div>
-          }
-          <div style={{ width: '320px', height: '1px', background: 'red' }} />
-          <div style={{ width: '310px', height: '1px', background: 'blue' }} />
           <div className="py-5">
             {
               alert && <div className="my-3">

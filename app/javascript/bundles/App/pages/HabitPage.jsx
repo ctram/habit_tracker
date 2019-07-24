@@ -55,7 +55,7 @@ class Habit extends React.Component {
         {title}
       </h1>
 
-      <div className="my-5 p-5">
+      <div className="my-3 p-5">
         <div className="d-flex justify-content-between">
           <Link className="btn btn-info" to="/" onClick={this.clearCurrentAlert}>
             Back
