@@ -1,19 +1,24 @@
 export default function fetchPlus(url, options = { method: 'GET' }) {
-    let headers = {
-        'Content-Type': 'application/json'
-    };
+  let timezoneOffset = new Date().getTimezoneOffset();
+  const sign = timezoneOffset < 0 ? '+' : '-'; // yes, this is the opposite as expected
+  timezoneOffset = Math.abs(timezoneOffset) / 60;
 
-    if (options.method.toLowerCase() !== 'get') {
-      const csrfToken = document.getElementsByName('csrf-token')[0].content;
+  let headers = {
+    'Content-Type': 'application/json',
+    'X-Timezone-Offset': `${sign}${timezoneOffset}`
+  };
 
-      headers = Object.assign(headers, {
-        'X-CSRF-Token': csrfToken
-      });
-    }
+  if (options.method.toLowerCase() !== 'get') {
+    const csrfToken = document.getElementsByName('csrf-token')[0].content;
 
-    headers =  new Headers(headers);
+    headers = Object.assign(headers, {
+      'X-CSRF-Token': csrfToken,
+    });
+  }
 
-    options = Object.assign({ headers }, options)
+  headers =  new Headers(headers);
 
-    return fetch(url, options);
+  options = Object.assign({ headers }, options)
+
+  return fetch(url, options);
 }

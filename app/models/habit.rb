@@ -5,13 +5,15 @@ class Habit < ApplicationRecord
 
   belongs_to :user
 
-  def num_days_current_streak
+  def num_days_current_streak(timezone_offset = '+0')
     return 0 if dates.empty?
 
     sorted_dates = dates.keys.sort
     cur_date = to_date_obj(sorted_dates.pop)
 
-    return 0 if cur_date != Date.today
+    today = DateTime.now.utc.to_datetime.new_offset(timezone_offset).to_date
+
+    return 0 if cur_date != today
 
     cur_streak = 1
 
