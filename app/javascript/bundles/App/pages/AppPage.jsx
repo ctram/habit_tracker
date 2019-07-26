@@ -11,6 +11,7 @@ import HabitsIndexPage from './HabitsIndexPage';
 import AlertBar from '../components/AlertBar';
 import AddHabitPageContainer from '../containers/AddHabitPageContainer';
 import HabitPage from '../pages/HabitPage';
+import UserPage from '../pages/UserPage';
 import Spinner from '../components/Spinner';
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
@@ -68,6 +69,10 @@ export default class App extends React.Component {
                 {
                   currentUser
                     && habitRoutes
+                }
+                {
+                  currentUser
+                    && <Route exact path={`/users/${currentUser.id}`} component={UserPage} />
                 }
                 <Route path='/' component={MissingEntityPage} />
             </Switch>
