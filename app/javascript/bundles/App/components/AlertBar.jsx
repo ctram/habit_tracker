@@ -18,8 +18,8 @@ class AlertBar extends React.Component {
 
     return (
       <div className="d-flex justify-content-center p-3">
-        <div className={`alert alert-${alertType} text-center`} role="alert">
-        {message}
+        <div className={`alert alert-${alertType} text-center text-capitalize`} role="alert">
+          {message}
         </div>
       </div>
     );
