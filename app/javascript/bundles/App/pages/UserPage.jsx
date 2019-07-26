@@ -15,16 +15,16 @@ class UserPage extends React.Component {
 
         <form>
           <div className="form-group">
-            <label>Current Password</label>
-            <input type="password" className="form-control" placeholder="Current Password" ref={this.inputCurrentPassword} />
+            <label htmlFor="current-password">Current Password</label>
+            <input id="current-password" type="password" className="form-control" placeholder="Current Password" ref={this.inputCurrentPassword} />
           </div>
           <div className="form-group">
-            <label>New Password</label>
-            <input type="password" className="form-control" placeholder="New Password" ref={this.inputNewPassword1} />
+            <label htmlFor="new-password">New Password</label>
+            <input id="new-password" type="password" className="form-control" placeholder="New Password" ref={this.inputNewPassword1} />
           </div>
           <div className="form-group">
-            <label>Confirm New Password</label>
-            <input type="password" className="form-control" placeholder="Confirm New Password" ref={this.inputNewPassword2} />
+            <label htmlFor="confirm-new-password">Confirm New Password</label>
+            <input id="confirm-new-password" type="password" className="form-control" placeholder="Confirm New Password" ref={this.inputNewPassword2} />
           </div>
           <button type="submit" className="btn btn-primary" onClick={this.submitPassword} >
             Change Password

@@ -77,12 +77,12 @@ class SignInForm extends React.Component {
     return (
         <form>
             <div className="form-group">
-                <label htmlFor="exampleInputEmail1">Email address</label>
-                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" ref={this.emailInput} />
+                <label htmlFor="email">Email address</label>
+                <input type="email" className="form-control" id="email" placeholder="Enter Email" ref={this.emailInput} />
             </div>
             <div className="form-group">
-                <label htmlFor="exampleInputPassword1">Password</label>
-                <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" ref={this.passwordInput} />
+                <label htmlFor="password">Password</label>
+                <input type="password" className="form-control" id="password" placeholder="Password" ref={this.passwordInput} />
             </div>
             <button type="submit" className="btn btn-primary" onClick={this.submit} >
               {submitBtnText}
