@@ -124,3 +124,39 @@ export function authenticateUser() {
       })
   };
 }
+
+export function updateUser(currentUser, attrs, attributeType) {
+  return dispatch => {
+    dispatch(startSpinner());
+
+    let status;
+
+    attributeType = `${attributeType[0].toUpperCase()}${attributeType.slice(1, attributeType.length)}`
+
+    return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ user: attrs })
+    })
+      .then(res => {
+        status = res.status;
+
+        return res.json();
+      })
+      .then(res => {
+        if (status === 200) {
+          dispatch(setCurrentUser(Object.assign(currentUser, res.user)));
+
+          return dispatch(setCurrentAlert('success', `${attributeType} updated.`));
+        }
+
+        throw(res.message)
+      })
+      .catch(e => {
+        dispatch(setCurrentAlert('danger', e));
+        throw(e);
+      })
+      .finally(() => {
+        dispatch(endSpinner());
+      })
+  };
+}
