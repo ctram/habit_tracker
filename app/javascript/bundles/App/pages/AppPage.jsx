@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import fetchPlus from '../../../helpers/fetch-plus';
 import { fetchHabits } from '../actions/habitsActionCreators';
 import { authenticateUser } from '../actions/usersActionCreators';
 
