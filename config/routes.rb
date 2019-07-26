@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # get 'hello_world', to: 'hello_world#index'
 
-  resources :users, only: [:create] do
+  resources :users, only: [:create, :update] do
     resources :habits do
       member do
         post '/update_habit_completed_for_date', to: 'habits#update_habit_completed_for_date'
