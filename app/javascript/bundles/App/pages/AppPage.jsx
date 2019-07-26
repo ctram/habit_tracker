@@ -54,7 +54,7 @@ export default class App extends React.Component {
           <NavBarContainer />
           <div className="py-5">
             {
-              alert && <div className="my-3">
+              alert && <div className="mb-3">
                 <AlertBar alertType={alert.alertType} message={alert.message} />
               </div>
             }

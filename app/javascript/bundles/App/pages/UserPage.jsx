@@ -28,7 +28,7 @@ class UserPage extends React.Component {
     const newPassword2 = this.inputNewPassword2.current.value;
 
     if (!currentPassword || !newPassword1 || !newPassword2) {
-      return dispatch(setCurrentAlert('danger', 'Current password, a new password and confirmation password must not be empty.'));
+      return dispatch(setCurrentAlert('danger', 'Current password, new password and confirmation password cannot be empty.'));
     }
 
     if (newPassword1 !== newPassword2) {
