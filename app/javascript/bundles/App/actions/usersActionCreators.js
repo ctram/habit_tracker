@@ -1,6 +1,7 @@
 import fetchPlus from '../../../helpers/fetch-plus';
 import { fetchHabits } from './habitsActionCreators';
 import { startSpinner, endSpinner } from './spinnersActionCreators';
+import { setCurrentAlert } from './alertsActionCreators';
 
 import { SET_CURRENT_USER } from '../constants/constants';
 
@@ -29,6 +30,7 @@ export function signIn(email, password) {
         return dispatch(fetchHabits(obj.user));
       }
 
+      dispatch(setCurrentAlert('danger', 'Email or password is incorrect.'));
       throw(obj.message);
     })
     .catch(e => {
@@ -50,7 +52,21 @@ export function signUp(email, password) {
       method: 'POST',
       body: JSON.stringify({ user: { email, password } })
     })
+    .then(res => {
+      status = res.status;
+
+      return res.json();
+    })
+    .then(res => {
+      if (status === 201) {
+        dispatch(setCurrentAlert('success', 'Account creation successful.'));
+      }
+
+      throw(res.message);
+    })
     .catch(e => {
+      dispatch(setCurrentAlert('danger', 'There was an error signing up.'));
+
       throw(e)
     })
     .finally(() => {
