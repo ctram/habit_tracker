@@ -19,10 +19,12 @@ class UsersController < ApplicationController
 
   def update
     email, new_password, current_password = user_params.values_at :email, :new_password, :current_password
-
     user = current_user
-
     keys = user_params.keys
+
+    if current_user.role == 'admin'
+      return render(status: 403, json: { message: 'action not allowed for this user.' })
+    end
 
     if email
       user.email = email
