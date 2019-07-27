@@ -2,6 +2,7 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { SET_HABITS_INDEX } from '../constants/constants';
 import { setCurrentAlert } from './alertsActionCreators';
 import { startSpinner, endSpinner } from './spinnersActionCreators';
+import { translateResponseMessage, parseErrors } from '../../../helpers/response-helper';
 
 export function setHabitsIndex(habits)
 {
@@ -18,25 +19,35 @@ export function addHabit(title, currentUser) {
 
     dispatch(startSpinner());
 
+    let status;
+    let message;
+    let errors;
+
     return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits`, {
       method: 'POST',
       body: JSON.stringify({ habit: { title }})
     })
     .then(res => {
       status = res.status;
-
       return res.json();
     })
     .then(res => {
+      message = translateResponseMessage(res.message);
+      errors = res.errors;
+
       if (status === 201) {
-        dispatch(setCurrentAlert('success', 'Habit created.'));
+        dispatch(setCurrentAlert('success', message));
         return dispatch(fetchHabits(currentUser));
       }
 
       throw(res.message);
     })
     .catch(e => {
-      dispatch(setCurrentAlert('danger', 'There was an error creating your habit. Please try again.'));
+      if (errors) {
+        dispatch(setCurrentAlert('danger', errors));
+      } else {
+        dispatch(setCurrentAlert('danger', message));
+      }
       throw(e);
     })
     .finally(() => {
@@ -46,7 +57,8 @@ export function addHabit(title, currentUser) {
 }
 
 export function fetchHabits(currentUser) {
-  let status = null;
+  let status;
+  let message;
 
   return dispatch => {
     if (!currentUser) {
@@ -58,10 +70,13 @@ export function fetchHabits(currentUser) {
     return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits`)
     .then(res => {
       status = res.status;
-
       return res.json();
     })
     .then(res => {
+      if (res.message) {
+        message = translateResponseMessage(res.message);
+      }
+
       if (status === 200) {
         return dispatch(setHabitsIndex(res.habits));
       }
@@ -69,7 +84,8 @@ export function fetchHabits(currentUser) {
       throw(res.message);
     })
     .catch(e => {
-      throw(e);
+      dispatch(setCurrentAlert('danger', message));
+      console.error(e);
     })
     .finally(() => {
       dispatch(endSpinner());
@@ -81,6 +97,7 @@ export function updateHabitCompletedForDate(habit, isCompleted, date, currentUse
   const { user_id, id } = habit;
 
   let status;
+  let message;
 
   return dispatch => {
     dispatch(startSpinner());
@@ -95,24 +112,25 @@ export function updateHabitCompletedForDate(habit, isCompleted, date, currentUse
       return res.json();
     })
     .then(res => {
-      if (status === 200) {
-        return dispatch(fetchHabits(currentUser));
-      }
+      message = translateResponseMessage(res.message);
 
-      throw(res.message);
+      if (status !== 200) {
+        return dispatch(setCurrentAlert('danger', message));
+      }
     })
     .catch(e => {
-      dispatch(setCurrentAlert('danger', 'There was an error logging your habit. Please refresh the page and try again.'));
-      throw(e);
+      console.error(e);
     })
     .finally(() => {
       dispatch(endSpinner());
+      dispatch(fetchHabits(currentUser));
     })
   };
 }
 
 export function deleteHabit(currentUser, habit) {
   let status;
+  let message;
 
   return dispatch => {
     dispatch(startSpinner());
@@ -121,18 +139,24 @@ export function deleteHabit(currentUser, habit) {
       method: 'DELETE'
     })
       .then(res => {
-        if (res.status !== 204) {
-          dispatch(setCurrentAlert('danger', 'There was an error deleting the habit. Please try again.'));
+        status = res.status;
+        return res.json();
+      })
+      .then(res => {
+        message = translateResponseMessage(res.message);
+
+        if (status !== 200) {
+          dispatch(setCurrentAlert('danger', message));
           throw(res.message);
         }
 
-        dispatch(setCurrentAlert('primary', 'Habit deleted.'));
-        return dispatch(fetchHabits(currentUser));
+        dispatch(setCurrentAlert('primary', message));
       })
       .catch(e => {
-        throw(e);
+        console.error(e);
       })
       .finally(() => {
+        dispatch(fetchHabits(currentUser));
         dispatch(endSpinner());
       })
   };

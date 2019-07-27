@@ -2,17 +2,19 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { fetchHabits } from './habitsActionCreators';
 import { startSpinner, endSpinner } from './spinnersActionCreators';
 import { setCurrentAlert } from './alertsActionCreators';
+import { translateResponseMessage, parseErrors } from '../../../helpers/response-helper';
 
 import { SET_CURRENT_USER } from '../constants/constants';
 
 export function setCurrentUser(user)
 {
   return { type: SET_CURRENT_USER, user }
-};
+}
 
 export function signIn(email, password) {
   return dispatch => {
-    let status = null;
+    let status;
+    let message;
 
     dispatch(startSpinner());
 
@@ -24,17 +26,20 @@ export function signIn(email, password) {
       status = res.status;
       return res.json()
     })
-    .then(obj => {
+    .then(res => {
+      message = translateResponseMessage(res.message);
+
+
       if (status === 200) {
-        dispatch(setCurrentUser(obj.user));
-        dispatch(setCurrentAlert('success', 'Signed In.'));
-        return dispatch(fetchHabits(obj.user));
+        dispatch(setCurrentUser(res.user));
+        dispatch(setCurrentAlert('success', message));
+        return dispatch(fetchHabits(res.user));
       }
 
-      dispatch(setCurrentAlert('danger', 'Email or password is incorrect.'));
-      throw(obj.message);
+      throw(res.message);
     })
     .catch(e => {
+      dispatch(setCurrentAlert('danger', message));
       throw(e);
     })
     .finally(() => {
@@ -46,6 +51,7 @@ export function signIn(email, password) {
 export function signUp(email, password) {
   return dispatch => {
     let status = null;
+    let message;
 
     dispatch(startSpinner());
 
@@ -59,16 +65,17 @@ export function signUp(email, password) {
       return res.json();
     })
     .then(res => {
+      message = translateResponseMessage(res.message)
+
       if (status === 201) {
-        return dispatch(setCurrentAlert('success', 'Account creation successful.'));
+        return dispatch(setCurrentAlert('success', message));
       }
 
       throw(res.message);
     })
     .catch(e => {
-
-      dispatch(setCurrentAlert('danger', e));
-      throw(e)
+      dispatch(setCurrentAlert('danger', message));
+      throw(e);
     })
     .finally(() => {
       dispatch(endSpinner());
@@ -80,14 +87,29 @@ export function signOut() {
   return dispatch => {
     dispatch(startSpinner());
 
+    let status;
+    let message;
+
     return fetchPlus(`${SERVER_DOMAIN}/sessions`, {
       method: 'DELETE'
     })
-      .then(() => {
-        dispatch(setCurrentUser(null));
+      .then(res => {
+        status = res.status;
+        return res.json();
+      })
+      .then(res => {
+        message = translateResponseMessage(res.message);
+
+        if (status === 200) {
+          dispatch(setCurrentAlert('success', message));
+          return dispatch(setCurrentUser(null));
+        }
+
+        throw(res.message);
       })
       .catch(e => {
-        throw(e)
+        dispatch(setCurrentAlert('danger', message));
+        throw(e);
       })
       .finally(() => {
         dispatch(endSpinner());
@@ -114,11 +136,9 @@ export function authenticateUser() {
           dispatch(setCurrentUser(user));
           return Promise.resolve(user);
         }
-
-        throw('Not authenticated.')
       })
       .catch(e => {
-        throw(e);
+        console.error(e);
       })
       .finally(() => {
         dispatch(endSpinner());
@@ -131,6 +151,8 @@ export function updateUser(currentUser, attrs, attributeType) {
     dispatch(startSpinner());
 
     let status;
+    let message;
+    let errors;
 
     attributeType = `${attributeType[0].toUpperCase()}${attributeType.slice(1, attributeType.length)}`
 
@@ -144,17 +166,22 @@ export function updateUser(currentUser, attrs, attributeType) {
         return res.json();
       })
       .then(res => {
+        errors = res.errors;
+        message = translateResponseMessage(res.message);
+
         if (status === 200) {
           dispatch(setCurrentUser(Object.assign(currentUser, res.user)));
-
           return dispatch(setCurrentAlert('success', `${attributeType} updated.`));
         }
 
-        throw(res.message)
+        if (errors) {
+          dispatch(setCurrentAlert('danger', errors));
+        } else {
+          dispatch(setCurrentAlert('danger', message));
+        }
       })
       .catch(e => {
-        dispatch(setCurrentAlert('danger', e));
-        throw(e);
+        console.error(e);
       })
       .finally(() => {
         dispatch(endSpinner());
