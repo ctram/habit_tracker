@@ -27,6 +27,7 @@ export function signIn(email, password) {
     .then(obj => {
       if (status === 200) {
         dispatch(setCurrentUser(obj.user));
+        dispatch(setCurrentAlert('success', 'Signed In.'));
         return dispatch(fetchHabits(obj.user));
       }
 
@@ -59,14 +60,14 @@ export function signUp(email, password) {
     })
     .then(res => {
       if (status === 201) {
-        dispatch(setCurrentAlert('success', 'Account creation successful.'));
+        return dispatch(setCurrentAlert('success', 'Account creation successful.'));
       }
 
       throw(res.message);
     })
     .catch(e => {
-      dispatch(setCurrentAlert('danger', 'There was an error signing up.'));
 
+      dispatch(setCurrentAlert('danger', e));
       throw(e)
     })
     .finally(() => {
