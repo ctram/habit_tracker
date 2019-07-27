@@ -1,6 +1,6 @@
 class Habit < ApplicationRecord
 
-  validates :title, presence: true, uniqueness: true
+  validates :title, presence: true, uniqueness: { scope: :user_id }
   validates :user_id, presence: true
 
   belongs_to :user
