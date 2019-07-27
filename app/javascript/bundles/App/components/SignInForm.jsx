@@ -17,7 +17,9 @@ class SignInForm extends React.Component {
     this.signUp = this.signUp.bind(this);
   }
 
-  submit() {
+  submit(e) {
+    e.preventDefault();
+
     const email = this.emailInput.current.value;
     const password = this.passwordInput.current.value;
 
@@ -34,10 +36,8 @@ class SignInForm extends React.Component {
     dispatch(usersActionCreators.signIn(email, password))
       .then(() => {
         this.props.history.push('/');
-        dispatch(setCurrentAlert('success', 'Successfully signed in.'));
       })
       .catch(e => {
-        dispatch(setCurrentAlert('danger', 'Incorrect email or passsword.'));
         console.error(e);
       });
   }
@@ -48,25 +48,9 @@ class SignInForm extends React.Component {
 
     dispatch(usersActionCreators.signUp(email, password))
       .then(res => {
-        status = res.status;
-        return res.json()
-      })
-      .then(obj => {
-        if (status === 201) {
-          dispatch(setCurrentAlert('success', 'Sign up successful.'));
-          return this.props.history.push('/sign-in');
-        }
-
-        throw(obj.message);
+        this.props.history.push('/sign-in');
       })
       .catch(e => {
-        let message = 'There was an error signing up.';
-
-        if (e === 'EmailAlreadyTaken') {
-          message += ' Email is already taken.';
-        }
-
-        dispatch(setCurrentAlert('primary', message));
         console.error(e);
       });
   }
@@ -75,16 +59,28 @@ class SignInForm extends React.Component {
     const submitBtnText = this.props.type === 'sign-up' ? 'Sign Up' : 'Sign In'
 
     return (
-        <form>
+        <form onSubmit={this.submit}>
             <div className="form-group">
                 <label htmlFor="email">Email address</label>
-                <input type="email" className="form-control" id="email" placeholder="Enter Email" ref={this.emailInput} />
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  placeholder="Enter Email"
+                  ref={this.emailInput}
+                  required />
             </div>
             <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <input type="password" className="form-control" id="password" placeholder="Password" ref={this.passwordInput} />
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="Password"
+                  ref={this.passwordInput}
+                  required />
             </div>
-            <button type="submit" className="btn btn-primary" onClick={this.submit} >
+            <button type="submit" className="btn btn-primary">
               {submitBtnText}
             </button>
         </form>
