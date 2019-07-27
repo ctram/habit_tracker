@@ -18,11 +18,18 @@ class Habit extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { shouldShowCalendar: this.shouldShowCalendar() };
+    this.state = {
+      shouldShowCalendar: this.shouldShowCalendar(),
+      title: props.habit.title,
+      isEditMode: false
+    };
 
     this.delete = this.delete.bind(this);
     this.clearCurrentAlert = this.clearCurrentAlert.bind(this);
     this.onChangeMedia = this.onChangeMedia.bind(this);
+    this.setEditMode = this.setEditMode.bind(this);
+    this.cancelEdit = this.cancelEdit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
@@ -31,6 +38,10 @@ class Habit extends React.Component {
 
   componentWillUnmount() {
     window.onresize = null;
+  }
+
+  onChange(e) {
+    this.setState({ title: e.target.value });
   }
 
   onChangeMedia() {
@@ -65,15 +76,60 @@ class Habit extends React.Component {
     this.props.dispatch(clearCurrentAlert());
   }
 
+  setEditMode(isEditMode) {
+    this.setState({ isEditMode });
+  }
+
+  submit(e) {
+    e.preventDefault();
+    let title = this.inputHabitTitle.current.value;
+
+    this.props.dispatch(updateHabitTitle(title))
+      .catch(() => {
+        this.setState({ title: this.props.habit.title });
+      });
+  }
+
+  cancelEdit() {
+    this.setState({ title: this.props.habit.title });
+    this.setEditMode(false);
+  }
+
   render() {
     let { habit } = this.props;
-    let { shouldShowCalendar } = this.state;
-    let { title, dates } = habit;
+    let { shouldShowCalendar, isEditMode, title } = this.state;
+    let { dates } = habit;
+
+    let formDom = <div className="d-flex justify-content-center">
+      <form class="form-inline" onSubmit={this.submit}>
+        <input
+          type="text"
+          class="form-control mb-2 mr-sm-2"
+          placeholder="Habit Title"
+          value={title}
+          onChange={this.onChange} />
+
+        <button type="submit" class="btn btn-primary mb-2 mr-2">Save</button>
+        <button class="btn btn-secondary mb-2" onClick={this.cancelEdit}>Cancel</button>
+      </form>
+    </div>;
+
+    let titleDom = <div className="text-center">
+      <h1 className="text-center mb-3">
+      {title}
+      </h1>
+      <button
+        type="button"
+        className="btn btn-primary btn-sm"
+        onClick={() => { this.setEditMode(true) }}>
+          Edit Title
+      </button>
+    </div>;
 
     return <div>
-      <h1 className="text-center">
-        {title}
-      </h1>
+      {
+        isEditMode && formDom || titleDom
+      }
 
       <div className="my-3 p-5">
         <div className="d-flex justify-content-between">
