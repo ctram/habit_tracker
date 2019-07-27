@@ -48,9 +48,15 @@ class AddHabitPage extends React.Component {
         <form onSubmit={this.submit}>
           <div className="form-group">
             <label htmlFor="inputTitle">Title</label>
-            <input type="title" ref={this.inputTitle} className="form-control" id="inputTitle" placeholder="Enter habit title"/>
+            <input
+              type="text"
+              ref={this.inputTitle}
+              className="form-control"
+              id="inputTitle"
+              placeholder="Habit title"
+              required />
           </div>
-          <button type="button" className="btn btn-primary" onClick={this.submit}>
+          <button type="submit" className="btn btn-primary">
             Add Habit
           </button>
         </form>
