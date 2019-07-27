@@ -110,7 +110,7 @@ class UserPage extends React.Component {
                 ref={this.inputNewPassword2}
                 required />
             </div>
-            <button type="submit" className="btn btn-primary" onClick={this.submitPassword} >
+            <button type="submit" className="btn btn-primary">
               Change Password
             </button>
           </form>
@@ -126,12 +126,13 @@ class UserPage extends React.Component {
             <div className="form-group">
               <label>New Email</label>
               <input
+                type="email"
                 className="form-control"
                 placeholder="New email"
                 ref={this.inputNewEmail}
                 required />
             </div>
-            <button type="submit" className="btn btn-primary" onClick={this.submitEmail} >
+            <button type="submit" className="btn btn-primary">
               Change Email
             </button>
           </form>
