@@ -128,3 +128,31 @@ export function deleteHabit(currentUser, habit) {
       })
   };
 }
+
+export function updateHabit(currentUser, habit) {
+  return dispatch => {
+    dispatch(startSpinner());
+
+    return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}/habits/${habit.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ habit })
+    })
+      .then(({ json, res }) => {
+        let message = translateResponseMessage(json.message);
+
+        if (res.status === 200) {
+          return dispatch(setCurrentAlert('primary', message));
+        }
+
+        throw(message);
+      })
+      .catch(e => {
+        dispatch(setCurrentAlert('danger', e));
+        console.error(e);
+      })
+      .finally(() => {
+        dispatch(fetchHabits(currentUser));
+        dispatch(endSpinner());
+      })
+  };
+}
