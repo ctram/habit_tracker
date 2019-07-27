@@ -31,6 +31,12 @@ class Header extends React.Component {
     }
 }
 
+Header.propTypes = {
+  onPrev: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired,
+  year: PropTypes.number.isRequired
+};
+
 class Week extends React.Component {
   constructor(props) {
     super(props);
@@ -89,6 +95,10 @@ class Week extends React.Component {
   }
 }
 
+Week.propTypes = {
+  startDayMoment: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => {
   return {
     currentUser: state.users.currentUser
@@ -100,7 +110,6 @@ const WeekContainer = connect(mapStateToProps)(Week);
 class MonthDates extends React.Component {
     render() {
       const { year, month, completedDates, habit } = this.props;
-
 
       let lastDayOfMonthMoment = moment([year, month]).add(1, 'months').subtract(1, 'days');
       let monthMoment = moment([year, month]);
@@ -184,11 +193,9 @@ class Calendar extends React.Component {
   }
 }
 
-MonthDates.statics = {
-   year: new Date().getFullYear(),
-   month: new Date().getMonth(),
-   date: new Date().getDate(),
-   today: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+Calendar.propTypes = {
+  completedDates: PropTypes.object.isRequired,
+  habit: PropTypes.object.isRequired
 };
 
 export default Calendar;

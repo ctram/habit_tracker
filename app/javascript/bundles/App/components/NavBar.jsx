@@ -81,6 +81,10 @@ class NavBar extends React.Component {
 
 NavBar.propTypes = {
   currentUser: PropTypes.object
-}
+};
+
+NavBar.defaultProps = {
+  currentUser: {}
+};
 
 export default withRouter(NavBar);

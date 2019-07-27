@@ -102,12 +102,14 @@ class HabitWeekCard extends React.Component {
   }
 }
 
+HabitWeekCard.propTypes = {
+  habit: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => {
   return {
     currentUser: state.users.currentUser
   };
 };
 
-let HabitWeekCardContainer = connect(mapStateToProps)(HabitWeekCard);
-
-export default withRouter(HabitWeekCardContainer);
+export default withRouter(connect(mapStateToProps)(HabitWeekCard));

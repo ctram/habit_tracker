@@ -96,6 +96,11 @@ class DaysInWeek extends React.Component {
   }
 }
 
+DaysInWeek.propTypes = {
+  numDaysToShow: PropTypes.number.isRequired,
+  habit: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => {
   return {
     currentUser: state.users.currentUser
