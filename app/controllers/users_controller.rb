@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     user = User.find_by_email(email)
 
     if user
-      return render(status: 409, json: { message: 'EmailAlreadyTaken' })
+      return render(status: 409, json: { message: 'email already taken.' })
     end
 
     user = User.create(email: email, password: password)
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
     if new_password
       unless user.authenticate(current_password)
-        return render(status: 401, json: { message: 'IncorrectPassword' })
+        return render(status: 401, json: { message: 'incorrect password' })
       end
 
       user.password = new_password
