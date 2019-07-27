@@ -4,20 +4,38 @@ class HabitsController < ApplicationController
   def index
     timezone_offset = request.headers['X-Timezone-Offset']
 
-    render(status: 200, json: { habits: habits_plus_info(timezone_offset) })
+    render(status: 200, json: {
+      habits: habits_plus_info(timezone_offset),
+      message: 'habits_fetch_successful'
+    })
   end
 
   def create
     habit = current_user.habits.create(habit_params)
 
-    render(status: 201, json: { habit: habit })
+    if habit.valid?
+      return render(status: 201, json: {
+        habit: habit,
+        message: 'habit_creation_successful'
+      })
+    end
+
+    render(status: 500, json: {
+      habit: habit,
+      message: 'habit_creation_error',
+      errors: habit.errors.messages
+    })
   end
 
   def destroy
     habit = Habit.find(params[:id])
     habit.destroy
 
-    render(status: 204, json: {})
+    if habit.destroyed?
+      return render(status: 200, json: { message: 'habit_destroy_successful' })
+    end
+
+    render(status: 500, json: { message: 'habit_destroy_error' })
   end
 
   def update_habit_completed_for_date
@@ -25,7 +43,7 @@ class HabitsController < ApplicationController
 
     habit = Habit.find(id)
 
-    return render(status: 400, json: { message: 'HabitNotFound' }) unless habit
+    return render(status: 400, json: { message: 'habit_not_found' }) unless habit
 
     if completed
       habit.dates[date] = true
@@ -33,8 +51,16 @@ class HabitsController < ApplicationController
       habit.dates.delete(date)
     end
 
-    habit.save
-    render(status: 200, json: { habit: habit })
+    if habit.save
+      return render(status: 200, json: {
+        habit: habit,
+        message: 'habit_update_successful'
+      })
+    end
+
+    render(status: 500, json: {
+      message: 'habit_update_error'
+    })
   end
 
   private

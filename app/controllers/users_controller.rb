@@ -9,12 +9,22 @@ class UsersController < ApplicationController
     user = User.find_by_email(email)
 
     if user
-      return render(status: 409, json: { message: 'email already taken.' })
+      return render(status: 409, json: { message: 'email_already_taken' })
     end
 
     user = User.create(email: email, password: password)
 
-    render(status: 201, json: { user: user.slice(:email, :id) })
+    if user.valid?
+      return render(
+        status: 201,
+        json: {
+          user: user.slice(:email, :id),
+          message: 'user_created'
+        }
+      )
+    end
+
+    render(status: 500, json: { message: 'user_creation_error', errors: user.errors.messages })
   end
 
   def update
@@ -23,7 +33,7 @@ class UsersController < ApplicationController
     keys = user_params.keys
 
     if current_user.role == 'admin'
-      return render(status: 403, json: { message: 'action not allowed for this user.' })
+      return render(status: 403, json: { message: 'action_not_allowed_for_user' })
     end
 
     if email
@@ -32,26 +42,23 @@ class UsersController < ApplicationController
 
     if new_password
       unless user.authenticate(current_password)
-        return render(status: 401, json: { message: 'incorrect password' })
+        return render(status: 401, json: { message: 'incorrect_password' })
       end
 
       user.password = new_password
     end
 
     unless user.save
-      message = ''
-
-      user.errors.messages.each do |attr_name, attr_messages|
-        message += attr_messages.reduce('') do |acc, _message|
-          acc += "#{attr_name} #{_message}\n"
-          acc
-        end
-      end
-
-      return render(status: 400, json: { message: message })
+      return render(status: 400, json: {
+        message: 'user_update_error',
+        errors: user.errors.messages
+      })
     end
 
-    render(status: 200, json: { user: user.slice(:email, :id) })
+    render(status: 200, json: {
+      user: user.slice(:email, :id),
+      message: 'user_update_successful'
+    })
   end
 
   private
