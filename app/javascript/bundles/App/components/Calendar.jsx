@@ -51,7 +51,6 @@ class Week extends React.Component {
 
     dispatch(updateHabitCompletedForDate(habit, isCompleted, date, currentUser))
       .catch(e => {
-        dispatch(setCurrentAlert('danger', 'There was an error logging your habit. Please refresh the page and try again.'));
         console.error(e);
       });
   }
@@ -108,38 +107,38 @@ const mapStateToProps = state => {
 const WeekContainer = connect(mapStateToProps)(Week);
 
 class MonthDates extends React.Component {
-    render() {
-      const { year, month, completedDates, habit } = this.props;
+  render() {
+    const { year, month, completedDates, habit } = this.props;
 
-      let lastDayOfMonthMoment = moment([year, month]).add(1, 'months').subtract(1, 'days');
-      let monthMoment = moment([year, month]);
+    let lastDayOfMonthMoment = moment([year, month]).add(1, 'months').subtract(1, 'days');
+    let monthMoment = moment([year, month]);
 
-      let startDayMoment = moment([year, month])
-      let domWeek = [];
-      let i = 0;
+    let startDayMoment = moment([year, month])
+    let domWeek = [];
+    let i = 0;
 
-      if (startDayMoment.day() !== 0) {
-        startDayMoment = startDayMoment.subtract(startDayMoment.day(), 'days')
-      }
-
-      while (startDayMoment.isBefore(lastDayOfMonthMoment) || startDayMoment.isSame(lastDayOfMonthMoment)) {
-        domWeek.push(
-          <div className="my-1" key={i}>
-            <WeekContainer
-              startDayMoment={moment(startDayMoment)}
-              year={year}
-              monthMoment={monthMoment}
-              completedDates={completedDates}
-              habit={habit} />
-          </div>
-        );
-
-        startDayMoment = startDayMoment.add(7, 'days');
-        i++;
-      }
-
-      return domWeek;
+    if (startDayMoment.day() !== 0) {
+      startDayMoment = startDayMoment.subtract(startDayMoment.day(), 'days')
     }
+
+    while (startDayMoment.isBefore(lastDayOfMonthMoment) || startDayMoment.isSame(lastDayOfMonthMoment)) {
+      domWeek.push(
+        <div className="my-1" key={i}>
+          <WeekContainer
+            startDayMoment={moment(startDayMoment)}
+            year={year}
+            monthMoment={monthMoment}
+            completedDates={completedDates}
+            habit={habit} />
+        </div>
+      );
+
+      startDayMoment = startDayMoment.add(7, 'days');
+      i++;
+    }
+
+    return domWeek;
+  }
 }
 
 class Calendar extends React.Component {

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
 import { setCurrentUser, signOut } from '../actions/usersActionCreators';
-import { setCurrentAlert, clearCurrentAlert } from '../actions/alertsActionCreators';
+import { clearCurrentAlert } from '../actions/alertsActionCreators';
 import fetchPlus from '../../../helpers/fetch-plus';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
@@ -23,7 +23,6 @@ class NavBar extends React.Component {
     this.props.dispatch(signOut())
       .then(() => {
         history.push('/sign-in');
-        dispatch(setCurrentAlert('success', 'Successfully logged out.'));
       })
       .catch(e => console.error(e));
   }
