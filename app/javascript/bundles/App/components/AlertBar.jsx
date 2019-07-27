@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { parseErrors } from '../../../helpers/response-helper';
 
 const ALERT_TYPES = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
 
@@ -9,11 +10,24 @@ class AlertBar extends React.Component {
   }
 
   render() {
-    const { alertType, message } = this.props;
+    let { alertType, message } = this.props;
 
     if (ALERT_TYPES.indexOf(alertType) === -1) {
       alertType = 'primary';
       console.warn(`Alert type "${alertType}" is not recognized. Defaulting to type "primary".`)
+    }
+
+    if (Object.getPrototypeOf(message) === Object.prototype) {
+      message = parseErrors(message).reduce((acc, el) => {
+        acc.push(<li key={el}>
+          {el}
+        </li>);
+        return acc;
+      }, []);
+
+      message = <ul>
+        {message}
+      </ul>;
     }
 
     return (
@@ -28,7 +42,11 @@ class AlertBar extends React.Component {
 
 AlertBar.propTypes = {
   alertType: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired
+  message: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.object
+  ]).isRequired
 };
 
 export default AlertBar;
