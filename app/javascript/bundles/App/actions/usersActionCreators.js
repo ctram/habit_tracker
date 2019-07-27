@@ -2,7 +2,7 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { fetchHabits } from './habitsActionCreators';
 import { startSpinner, endSpinner } from './spinnersActionCreators';
 import { setCurrentAlert } from './alertsActionCreators';
-import { translateResponseMessage, parseErrors } from '../../../helpers/response-helper';
+import { translateResponseMessage } from '../../../helpers/response-helper';
 
 import { SET_CURRENT_USER } from '../constants/constants';
 
@@ -13,33 +13,25 @@ export function setCurrentUser(user)
 
 export function signIn(email, password) {
   return dispatch => {
-    let status;
-    let message;
-
     dispatch(startSpinner());
 
     return fetchPlus(`${SERVER_DOMAIN}/sessions`, {
       method: 'POST',
       body: JSON.stringify({ user: { email, password } })
     })
-    .then(res => {
-      status = res.status;
-      return res.json()
-    })
-    .then(res => {
-      message = translateResponseMessage(res.message);
+    .then(({ json, res }) => {
+      let message = translateResponseMessage(json.message);
 
-
-      if (status === 200) {
-        dispatch(setCurrentUser(res.user));
+      if (res.status === 200) {
+        dispatch(setCurrentUser(json.user));
         dispatch(setCurrentAlert('success', message));
-        return dispatch(fetchHabits(res.user));
+        return dispatch(fetchHabits(json.user));
       }
 
-      throw(res.message);
+      throw(message);
     })
     .catch(e => {
-      dispatch(setCurrentAlert('danger', message));
+      dispatch(setCurrentAlert('danger', e));
       throw(e);
     })
     .finally(() => {
@@ -50,31 +42,23 @@ export function signIn(email, password) {
 
 export function signUp(email, password) {
   return dispatch => {
-    let status = null;
-    let message;
-
     dispatch(startSpinner());
 
     return fetchPlus(`${SERVER_DOMAIN}/users`, {
       method: 'POST',
       body: JSON.stringify({ user: { email, password } })
     })
-    .then(res => {
-      status = res.status;
+    .then(({ json, res }) => {
+      let message = translateResponseMessage(json.message)
 
-      return res.json();
-    })
-    .then(res => {
-      message = translateResponseMessage(res.message)
-
-      if (status === 201) {
+      if (res.status === 201) {
         return dispatch(setCurrentAlert('success', message));
       }
 
-      throw(res.message);
+      throw(message);
     })
     .catch(e => {
-      dispatch(setCurrentAlert('danger', message));
+      dispatch(setCurrentAlert('danger', e));
       throw(e);
     })
     .finally(() => {
@@ -87,28 +71,21 @@ export function signOut() {
   return dispatch => {
     dispatch(startSpinner());
 
-    let status;
-    let message;
-
     return fetchPlus(`${SERVER_DOMAIN}/sessions`, {
       method: 'DELETE'
     })
-      .then(res => {
-        status = res.status;
-        return res.json();
-      })
-      .then(res => {
-        message = translateResponseMessage(res.message);
+      .then(({ json, res }) => {
+        let message = translateResponseMessage(json.message);
 
-        if (status === 200) {
+        if (res.status === 200) {
           dispatch(setCurrentAlert('success', message));
           return dispatch(setCurrentUser(null));
         }
 
-        throw(res.message);
+        throw(message);
       })
       .catch(e => {
-        dispatch(setCurrentAlert('danger', message));
+        dispatch(setCurrentAlert('danger', e));
         throw(e);
       })
       .finally(() => {
@@ -122,15 +99,8 @@ export function authenticateUser() {
     dispatch(startSpinner());
 
     return fetchPlus(`${SERVER_DOMAIN}/sessions`)
-      .then(res => {
-        if (res.status === 200) {
-          return res.json();
-        }
-
-        return {};
-      })
-      .then(res => {
-        const { user } = res;
+      .then(({ json, res }) => {
+        const { user } = json;
 
         if (user) {
           dispatch(setCurrentUser(user));
@@ -150,37 +120,29 @@ export function updateUser(currentUser, attrs, attributeType) {
   return dispatch => {
     dispatch(startSpinner());
 
-    let status;
-    let message;
-    let errors;
-
     attributeType = `${attributeType[0].toUpperCase()}${attributeType.slice(1, attributeType.length)}`
 
     return fetchPlus(`${SERVER_DOMAIN}/users/${currentUser.id}`, {
       method: 'PATCH',
       body: JSON.stringify({ user: attrs })
     })
-      .then(res => {
-        status = res.status;
+      .then(({ json, res }) => {
+        let errors = json.errors;
+        let message = translateResponseMessage(json.message);
 
-        return res.json();
-      })
-      .then(res => {
-        errors = res.errors;
-        message = translateResponseMessage(res.message);
-
-        if (status === 200) {
-          dispatch(setCurrentUser(Object.assign(currentUser, res.user)));
+        if (res.status === 200) {
+          dispatch(setCurrentUser(Object.assign(currentUser, json.user)));
           return dispatch(setCurrentAlert('success', `${attributeType} updated.`));
         }
 
         if (errors) {
-          dispatch(setCurrentAlert('danger', errors));
-        } else {
-          dispatch(setCurrentAlert('danger', message));
+          throw(errors);
         }
+
+        throw(message);
       })
       .catch(e => {
+        dispatch(setCurrentAlert('danger', e));
         console.error(e);
       })
       .finally(() => {

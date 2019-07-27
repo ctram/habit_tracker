@@ -1,3 +1,5 @@
+import { isJSONResponse } from './response-helper';
+
 export default function fetchPlus(url, options = { method: 'GET' }) {
   let timezoneOffset = new Date().getTimezoneOffset();
   const sign = timezoneOffset < 0 ? '+' : '-'; // yes, this is the opposite as expected
@@ -20,5 +22,22 @@ export default function fetchPlus(url, options = { method: 'GET' }) {
 
   options = Object.assign({ headers }, options)
 
-  return fetch(url, options);
+  let _res;
+
+  return fetch(url, options)
+    .then(res => {
+      _res = res;
+
+      if (res.headers.get('content-type').indexOf('application/json') !== -1) {
+        return res.json();
+      }
+
+      throw(res.statusText);
+    })
+    .then(json => {
+      return { json, res: _res };
+    })
+    .catch(e => {
+      throw(e);
+    });
 }
