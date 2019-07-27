@@ -27,8 +27,33 @@ class HabitsController < ApplicationController
     })
   end
 
+  def update
+    habit = current_user.habits.find_by_id(habit_params[:id])
+
+    unless habit
+      return render(status: 404, json: {
+          message: 'habit_not_found'
+      })
+    end
+
+    # only able to update title for now.
+    habit.title = habit_params[:title]
+
+    if habit.save
+      return render(status: 200, json: {
+        habit: habit
+        message: 'habit_update_successful'
+      })
+    end
+
+    render(status: 500, json: {
+      message: 'habit_update_error',
+      errors: habit.errors.messages
+    })
+  end
+
   def destroy
-    habit = Habit.find(params[:id])
+    habit = current_user.habits.find(params[:id])
     habit.destroy
 
     if habit.destroyed?
@@ -41,7 +66,7 @@ class HabitsController < ApplicationController
   def update_habit_completed_for_date
     id, date, completed = habit_params.values_at :id, :date, :completed
 
-    habit = Habit.find(id)
+    habit = current_user.habits.find_by_id(id)
 
     return render(status: 400, json: { message: 'habit_not_found' }) unless habit
 
@@ -59,7 +84,8 @@ class HabitsController < ApplicationController
     end
 
     render(status: 500, json: {
-      message: 'habit_update_error'
+      message: 'habit_update_error',
+      errors: habit.errors.messages
     })
   end
 
