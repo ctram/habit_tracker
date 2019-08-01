@@ -99,6 +99,7 @@ class Habit extends React.Component {
     let { habit } = this.props;
     let { shouldShowCalendar, isEditMode, title } = this.state;
     let { dates } = habit;
+    let { num_days_current_streak, num_days_longest_streak } = habit;
 
     let formDom = <div className="d-flex justify-content-center">
       <form class="form-inline" onSubmit={this.submit}>
@@ -141,6 +142,18 @@ class Habit extends React.Component {
           </button>
         </div>
         <div className="my-5">
+          <div className="habit-info mb-3">
+            <div className="container">
+              <div className="row text-center">
+                <div className="col">
+                  Longest streak: {num_days_longest_streak} days
+                </div>
+                <div className="col">
+                  Current streak: {num_days_current_streak} days
+                </div>
+              </div>
+            </div>
+          </div>
           {
             shouldShowCalendar
               && <div className="card">
