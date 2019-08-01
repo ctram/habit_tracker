@@ -41,7 +41,7 @@ class HabitsController < ApplicationController
 
     if habit.save
       return render(status: 200, json: {
-        habit: habit
+        habit: habit,
         message: 'habit_update_successful'
       })
     end
