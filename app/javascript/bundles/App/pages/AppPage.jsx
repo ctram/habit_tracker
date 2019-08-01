@@ -24,6 +24,7 @@ export default class App extends React.Component {
     super(props);
 
     this.authenticateUser = this.authenticateUser.bind(this);
+    this.state = { attemptedAuthentication: false };
   }
 
   componentDidMount() {
@@ -31,7 +32,10 @@ export default class App extends React.Component {
       .then(currentUser => {
         return this.props.dispatch(fetchHabits(currentUser));
       })
-      .catch(e => console.error(e));
+      .catch(e => console.error(e))
+      .finally(() => {
+        this.setState({ attemptedAuthentication: true });
+      });
   }
 
   authenticateUser() {
@@ -41,6 +45,7 @@ export default class App extends React.Component {
 
   render() {
     const { alert, currentUser, habits, showSpinner } = this.props;
+    const { attemptedAuthentication } = this.state;
 
     const habitRoutes = habits.map((habit, idx) => {
         return <Route path={`/habits/${habit.id}`} render={() => (<HabitPage habit={habit} currentUser={currentUser} />)} key={idx} />;
@@ -74,7 +79,13 @@ export default class App extends React.Component {
                   currentUser
                     && <Route exact path={`/users/${currentUser.id}`} component={UserPage} />
                 }
-                <Route path='/' component={MissingEntityPage} />
+                {
+                  // don't show 404 pages until client at least tried to authenticate,
+                  // once authenticate attempt has concluded, we'll know what urls should
+                  // be considered 404s
+                  attemptedAuthentication
+                    && <Route path='/' component={MissingEntityPage} />
+                }
             </Switch>
           </div>
         </Router>

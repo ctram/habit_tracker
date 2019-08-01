@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  # get 'hello_world', to: 'hello_world#index'
-
   resources :users, only: [:create, :update] do
     resources :habits do
       member do
