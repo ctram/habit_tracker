@@ -75,7 +75,7 @@ class Week extends React.Component {
       }
 
       let dayClassMod = isCompleted ? ' day-completed' : '';
-      dayClassMod += isInFuture ? '' : ' force-pointer';
+      dayClassMod += isInFuture ? 'light-grey' : ' force-pointer';
 
       days.push(
         <div className={`col d-flex justify-content-center ${fontClass}`} key={i} data-date={fullDate} data-is-completed={isCompleted} onClick={isInFuture ? null: this.onClick}>
