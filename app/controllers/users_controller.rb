@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   skip_before_action :verify_user_logged_in, only: [:create]
 
   def create
-    email, password = params[:user].values_at :email, :password
+    email, password = user_params.values_at :email, :password
 
     user = User.find_by_email(email)
 
@@ -30,7 +30,6 @@ class UsersController < ApplicationController
   def update
     email, new_password, current_password = user_params.values_at :email, :new_password, :current_password
     user = current_user
-    keys = user_params.keys
 
     if current_user.role == 'admin'
       return render(status: 403, json: { message: 'action_not_allowed_for_user' })

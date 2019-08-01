@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   skip_before_action :verify_user_logged_in, only: [:create, :authenticate]
 
   def create
-    email, password = params[:user].values_at :email, :password
+    email, password = user_params.values_at :email, :password
 
     user = User.find_by_email(email)
 
@@ -14,7 +14,6 @@ class SessionsController < ApplicationController
     end
 
     login(user)
-    session[:user_id] = user.id
 
     render(status: 200, json: {
       user: user.slice(:id, :email),
@@ -43,5 +42,11 @@ class SessionsController < ApplicationController
     render(status: 500, json: {
       message: 'user_sign_out_error'
     })
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:email, :password)
   end
 end
