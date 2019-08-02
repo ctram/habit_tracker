@@ -123,7 +123,7 @@ class MonthDates extends React.Component {
 
     while (startDayMoment.isBefore(lastDayOfMonthMoment) || startDayMoment.isSame(lastDayOfMonthMoment)) {
       domWeek.push(
-        <div className="my-1" key={i}>
+        <div className="my-3" key={i}>
           <WeekContainer
             startDayMoment={moment(startDayMoment)}
             year={year}
