@@ -146,10 +146,16 @@ class Habit extends React.Component {
             <div className="container">
               <div className="row text-center">
                 <div className="col">
-                  Longest streak: {num_days_longest_streak} days
+                  <strong className="mr-1">
+                    Longest streak:
+                  </strong>
+                  {num_days_longest_streak} days
                 </div>
                 <div className="col">
-                  Current streak: {num_days_current_streak} days
+                  <strong className="mr-1">
+                    Current streak:
+                  </strong>
+                  {num_days_current_streak} days
                 </div>
               </div>
             </div>
