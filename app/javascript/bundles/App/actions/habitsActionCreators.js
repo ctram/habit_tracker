@@ -141,7 +141,7 @@ export function updateHabit(currentUser, habit) {
         let message = translateResponseMessage(json.message);
 
         if (res.status === 200) {
-          return dispatch(setCurrentAlert('primary', message));
+          return dispatch(setCurrentAlert('success', message));
         }
 
         throw(message);

@@ -132,9 +132,11 @@ class Habit extends React.Component {
     </div>;
 
     return <div>
-      {
-        isEditMode && formDom || titleDom
-      }
+      <div className="px-5">
+        {
+          isEditMode && formDom || titleDom
+        }
+      </div>
 
       <div className="my-3 p-5">
         <div className="d-flex justify-content-between">

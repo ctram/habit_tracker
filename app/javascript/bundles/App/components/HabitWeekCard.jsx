@@ -80,7 +80,7 @@ class HabitWeekCard extends React.Component {
     const titleDom = <h5>{title}</h5>;
 
     return (
-      <div className="card py-5 habit-week-card">
+      <div className="card py-5 px-1 habit-week-card">
         <div className="mb-3">
           <Link to={`/habits/${id}`} onClick={this.clearCurrentAlert}>
           {titleDom}
