@@ -148,7 +148,7 @@ export function updateHabit(currentUser, habit) {
       })
       .catch(e => {
         dispatch(setCurrentAlert('danger', e));
-        console.error(e);
+        throw(e);
       })
       .finally(() => {
         dispatch(fetchHabits(currentUser));

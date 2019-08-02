@@ -7,7 +7,7 @@ import fetchPlus from '../../../helpers/fetch-plus';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as alertsActions from '../actions/alertsActionCreators';
-import { fetchHabits, deleteHabit } from '../actions/habitsActionCreators';
+import { fetchHabits, deleteHabit, updateHabit} from '../actions/habitsActionCreators';
 import { clearCurrentAlert } from '../actions/alertsActionCreators';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
@@ -30,6 +30,7 @@ class Habit extends React.Component {
     this.setEditMode = this.setEditMode.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   componentDidMount() {
@@ -82,11 +83,14 @@ class Habit extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    let title = this.inputHabitTitle.current.value;
 
-    this.props.dispatch(updateHabitTitle(title))
-      .catch(() => {
-        this.setState({ title: this.props.habit.title });
+    const title = this.state.title;
+    const { habit, currentUser } = this.props;
+    const updatedHabit = Object.assign({}, habit, { title });
+
+    this.props.dispatch(updateHabit(currentUser, updatedHabit))
+      .then(() => {
+        this.setState({ isEditMode: false });
       });
   }
 
@@ -102,16 +106,16 @@ class Habit extends React.Component {
     let { num_days_current_streak, num_days_longest_streak } = habit;
 
     let formDom = <div className="d-flex justify-content-center">
-      <form class="form-inline" onSubmit={this.submit}>
+      <form className="form-inline" onSubmit={this.submit}>
         <input
           type="text"
-          class="form-control mb-2 mr-sm-2"
+          className="form-control mb-2 mr-sm-2"
           placeholder="Habit Title"
           value={title}
           onChange={this.onChange} />
 
-        <button type="submit" class="btn btn-primary mb-2 mr-2">Save</button>
-        <button class="btn btn-secondary mb-2" onClick={this.cancelEdit}>Cancel</button>
+        <button type="submit" className="btn btn-primary mb-2 mr-2" disabled={title === habit.title}>Save</button>
+        <button className="btn btn-secondary mb-2" onClick={this.cancelEdit}>Cancel</button>
       </form>
     </div>;
 
