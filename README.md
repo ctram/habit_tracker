@@ -2,12 +2,11 @@
 Mobile friendly application for logging and tracking habits from day to day.
 
 
-<img style="margin-bottom: 30px; border-radius: 3px;" src="https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790952/habit-tracker-calendar_xwmqpd.png"
-/>
-<img style="margin-bottom: 30px; border-radius: 3px;" src="https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790955/habit-tracker-habits-index_jjfg4w.png"
-/>
-<img style="margin-bottom: 30px; border-radius: 3px; max-width: 300px;" src="https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790953/habit-tracker-mobile_awrrdg.png"
- style="max-width: 300px"/>
+![Calendar](https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790952/habit-tracker-calendar_xwmqpd.png)
+
+![Calendar](https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790955/habit-tracker-habits-index_jjfg4w.png)
+
+![Calendar](https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790953/habit-tracker-mobile_awrrdg.png)
 
 ## Live Demo
 [http://habit-tracker-1.herokuapp.com](http://habit-tracker-1.herokuapp.com)
