@@ -1,10 +1,9 @@
 # Habit Tracker
 Mobile friendly application for logging and tracking habits from day to day.
 
+![Calendar](https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790952/habit-tracker-calendar_xwmqpd.png)
 
 ![Calendar](https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790955/habit-tracker-habits-index_jjfg4w.png)
-
-![Calendar](https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790952/habit-tracker-calendar_xwmqpd.png)
 
 ![Calendar](https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790953/habit-tracker-mobile_awrrdg.png)
 
