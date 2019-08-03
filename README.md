@@ -40,9 +40,9 @@ Mobile friendly application for logging and tracking habits from day to day.
 - Application is now running at `localhost:3000`.
 
 ## Todo
-- Different types of habits:
-  - Habits that are performed multiple times a day.
-  - Habits that need not be performed on consecutive days.
-  - Goals for habits.
-- Export habit data to CSV.
-- Offline mode.
+- [ ] Different types of habits:
+  - [ ] Habits that are performed multiple times a day.
+  - [ ] Habits that need not be performed on consecutive days.
+  - [ ] Goals for habits.
+- [ ] Export habit data to CSV.
+- [ ] Offline mode.
