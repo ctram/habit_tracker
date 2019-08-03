@@ -60,7 +60,7 @@ class DaysInWeek extends React.Component {
 
       let dayNameClass = '';
       dayNameClass += dayIdx === 0 ? ' text-danger' : '';
-      dayNameClass += dayCompleted ? ' day-completed' : '';
+      dayNameClass += dayCompleted ? ' circle-day-completed' : ' circle-day-incompleted';
 
       inner.push(
         <div className="col" key={i}>

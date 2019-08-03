@@ -74,7 +74,7 @@ class Week extends React.Component {
         fontClass = 'font-weight-bold';
       }
 
-      let dayClassMod = isCompleted ? ' day-completed' : '';
+      let dayClassMod = isCompleted ? ' circle-day-completed' : ' circle-day-incompleted';
       dayClassMod += isInFuture ? 'light-grey' : ' force-pointer';
 
       days.push(

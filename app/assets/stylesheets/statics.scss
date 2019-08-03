@@ -12,14 +12,20 @@
   transition: all .4s;
 }
 
-.day-in-calendar {
-  line-height: 4em;
-}
-
-.day-completed {
+.circle-day-completed {
   background-color: white;
   border-color: white;
   color: black;
+}
+
+.circle-day-incompleted {
+  &:hover {
+    color: white !important;
+  }
+}
+
+.day-in-calendar {
+  line-height: 4em;
 }
 
 .z-level-1 {
@@ -49,6 +55,7 @@
   left: 15px;
 
 }
+
 .fa-chevron-circle-right {
   position: relative;
   right: 15px;
