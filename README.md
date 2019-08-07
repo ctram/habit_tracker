@@ -8,7 +8,7 @@ Mobile friendly application for logging and tracking habits from day to day.
 ![Calendar](https://res.cloudinary.com/dt6ccpxqd/image/upload/v1564790953/habit-tracker-mobile_awrrdg.png)
 
 ## Live Demo
-[http://habit-tracker-1.herokuapp.com](http://habit-tracker-1.herokuapp.com)
+[https://habit-tracker-1.herokuapp.com](http://habit-tracker-1.herokuapp.com)
 
 ## Features
 - Mobile friendly.
